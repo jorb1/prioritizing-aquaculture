@@ -7,4 +7,82 @@ editor: visual
 
 ## Background
 
-Marine aquaculture has the potential to play an important role in the global food supply as a more sustainable protein option than land-based meat production.1 Gentry et al. mapped the potential for marine aquaculture globally based on multiple constraints, including ship traffic, dissolved oxygen, and bottom depth. They found that global seafood demand could be met using less than 0.015% of the global ocean area.
+Marine aquaculture has the potential to play an important role in the global food supply as a more sustainable protein option than land-based meat production. Gentry et al. mapped the potential for marine aquaculture globally based on multiple constraints, including ship traffic, dissolved oxygen, and bottom depth. They found that global seafood demand could be met using less than 0.015% of the global ocean area.
+
+For this analysis, I will determine which Exclusive Economic Zones (EEZ) on the West Coast of the United States are best suited to developing marine aquaculture for several species of oysters and (CHOOSE AN ANIMAL JORB). Suitable locations will be determined based on a range of suitable sea surface temperatures (SST) and depth values for the species. 
+
+Data on species depth and temperature requirements came from SeaLifeBase. 
+
+Data on sea surface temperatures came from NOAA's 5km Daily Global Satellite Sea Surface Temperature Anomaly v3.1.
+
+Bathymetry data came from the General Bathymetric Chart of the Oceans (GEBCO). 
+
+Data on Exclusive Economic Zones came from Marineregions.org. 
+
+```{r}
+# Read in data
+sst_2008 <- average_annual_sst_2008.tif
+sst_2009 <- average_annual_sst_2009.tif
+sst_2010 <- average_annual_sst_2010.tif
+sst_2011 <- average_annual_sst_2011.tif
+sst_2012 <- average_annual_sst_2012.tif
+  
+bathymetry <- depth.tif
+  
+maritime_boundaries <- wc_regions_clean.shp
+
+```
+
+```{r}
+# Create a raster stack of the SST tif files (or should i do this lower down?...or do it again later down?)
+```
+
+```{r}
+# Transform the CRS of the files to match
+```
+
+In order to perform our analysis, the data must be processed. Specifically, I must ensure that the Sea Surface Temperature data and Depth data can be combined. 
+
+```{r}
+# I need to process the SST and depth data so they can be combined, since they have different resolutions, extents, and positions
+
+# Find the mean SST from 2008-2012 (eg create single raster of average SST...)
+
+
+
+# Convert average SST from Kelvin to Celsius by subtracting 273.15
+
+
+# Crop depth raster to match the extent of the SST raster - BUT the resolutions dont match so....
+
+# Resample the depth data to match the resolution of the SST data using the nearest neighbor approach
+
+# Check that the depth and SST match in resolution, extend, and CRS (hint: can the rasters be stacked?)
+
+```
+
+After the data is properly prepared and processed, I can begin the analysis to find suitable locations for marine aquaculture. This means finding locations that are suitable in terms of both SST and depth. 
+
+I will begin my analysis with Oysters. Research has shown that oyster need the following conditions for optimal growth: 
+
+- sea surface temperature: 11-30°C
+- depth: 0-70 meters below sea level
+
+*(
+Tip: finding suitable locations
+The SST and depth rasters should now identify the suitability of locations as 0 or 1. To find locations that have both suitable temperature and depth, you can use map algebra. One idea is to multiple the values of the cells, using the lapp() function.)*
+
+```{r}
+# Reclassify SST and depth data into locations that are suitable for oysters. (hint: set suitable values to 1 and unsuitable values to 0)
+```
+
+```{r}
+# Find locations taht satisfy both SST and depth conditions 
+```
+
+
+
+
+
+
+
