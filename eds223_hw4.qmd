@@ -18,23 +18,37 @@ Data on sea surface temperatures came from NOAA's 5km Daily Global Satellite Sea
 Bathymetry data came from the General Bathymetric Chart of the Oceans (GEBCO). 
 
 Data on Exclusive Economic Zones came from Marineregions.org. 
+```{r}
+# Load libraries
+library(tidyverse)
+library(sf)
+library(terra)
+library(tmap)
+library(tmaptools)
+library(here)
+```
 
 ```{r}
 # Read in data
-sst_2008 <- average_annual_sst_2008.tif
-sst_2009 <- average_annual_sst_2009.tif
-sst_2010 <- average_annual_sst_2010.tif
-sst_2011 <- average_annual_sst_2011.tif
-sst_2012 <- average_annual_sst_2012.tif
-  
-bathymetry <- depth.tif
-  
-maritime_boundaries <- wc_regions_clean.shp
+
+# Create a list of all images that have the extension.tif and contain the word sst
+sst_list <- list.files("data",
+                       pattern = glob2rx("*sst*.tif$"),
+                       full.names = TRUE)
+
+# Create a stack of the sst rasters
+sst_stack <- rast(sst_list)
+
+# Read in bathymetry raster data
+bathymetry <- rast(here::here("data", "depth.tif"))
+
+# Read in maritime boundaries vector file
+maritime_boundaries <- read_sf(here::here("data", "wc_regions_clean.shp"))
 
 ```
 
 ```{r}
-# Create a raster stack of the SST tif files (or should i do this lower down?...or do it again later down?)
+# Put any functions I create here!
 ```
 
 ```{r}
