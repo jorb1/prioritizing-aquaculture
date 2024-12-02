@@ -1,8 +1,16 @@
 ---
-title: "EDS 223 Homework #4"
-author: "Bailey Jorgensen"
-format: html
-editor: visual
+title: "Prioritizing Potential Aquaculture Zones in Coastal California"
+subtitle: "EDS 223 Homework #4"
+author: "Bailey Jørgensen"
+execute:
+  warning: false
+  message: false
+format:
+  html:
+    code-fold: true
+    toc: true
+editor_options: 
+  chunk_output_type: console
 ---
 
 ## Background
@@ -18,7 +26,10 @@ Data on sea surface temperatures came from NOAA's 5km Daily Global Satellite Sea
 Bathymetry data came from the General Bathymetric Chart of the Oceans (GEBCO). 
 
 Data on Exclusive Economic Zones came from Marineregions.org. 
-```{r}
+```{r, output = FALSE}
+#| eval: true
+#| echo: false
+
 # Load libraries
 library(tidyverse)
 library(sf)
@@ -33,7 +44,9 @@ library(tidyterra)
 library(patchwork)
 ```
 
-```{r}
+```{r, output = FALSE}
+#| eval: true
+#| echo: false
 # Read in data
 
 # Create a list of all images that have the extension.tif and contain the word sst
@@ -62,15 +75,13 @@ bathymetry <- terra::project(bathymetry, crs(sst_stack))
 
 maritime_boundaries <- maritime_boundaries %>% 
   st_transform(crs = st_crs(bathymetry))
-```
 
-
-```{r}
 # Confirm that the CRS transformed as expected
 test_that("The CRS of all data sets match", {
   expect_true(crs(sst_stack) == crs(bathymetry) && crs(bathymetry) == crs(maritime_boundaries))
 })
 ```
+## Data Processing
 
 In order to perform this analysis, the data must be processed. Specifically, I must ensure that the Sea Surface Temperature data and Depth data can be combined, since the data have different resolutions, extents, and positions.
 
@@ -86,13 +97,8 @@ sst_average_celsius <- sst_average - 273.15
 
 After some initial processing of the SST raster stack, I want to take a quick look at the the bathymetry and SST data, to see what further processing might need to be done.
 
-```{r}
-plot(bathymetry)
-```
-```{r}
-plot(sst_average_celsius)
-```
-```{r}
+
+```{r, fig.width=10, fig.height=6}
 
 # Plot bathymetry raster
 plot_bathymetry <- ggplot() +
@@ -114,31 +120,31 @@ plot_bathymetry + plot_sst
 ```
 I suspect that the resolutions of these raster objects do not match, so I run a quick check to see:
 
-```{r}
-print(res(sst_average_celsius))
-print(res(bathymetry))
+```{r, echo=TRUE, results='markdown'}
+cat("Resolution of SST Average (°C):", res(sst_average_celsius)[1], "x", res(sst_average_celsius)[2], "\n")
+cat("Resolution of Bathymetry:", res(bathymetry)[1], "x", res(bathymetry)[2], "\n")
 ```
-This check confirms my suspicions, and I decide to resample the bathymetry data to match the resolution of the SST data, using the nearest neighbor approach.
+This check confirms my suspicions, and I decide to resample the bathymetry data to match the resolution of the SST data, using the nearest neighbor approach. Once the resolutions and CRS of the data matches, I can crop the bathymetry raster to match the extent of the SST raster. 
 
-```{r}
+```{r, echo=TRUE, results='asis'}
 # Resample the bathymetry data to match the resolution of the SST data using the nearest neighbor approach
 bathymetry_resampled <- resample(bathymetry, sst_stack, method = "near")
 
 # Verify the results
-print(res(sst_average_celsius))
-print(res(bathymetry_resampled))
-
-# Check that the depth and SST match in resolution, extend, and CRS (hint: can the rasters be stacked?)
-```
-Now that the resolutions and CRS of the data matches, I can crop the bathymetry raster to match the extent of the SST raster. 
-
-```{r}
+cat("Matched Resolution of SST Average (°C):", res(sst_average_celsius)[1], "x", res(sst_average_celsius)[2], "\n")
+cat("Matched Resolution of Bathymetry:", res(bathymetry)[1], "x", res(bathymetry_resampled)[2], "\n")
+    
+# Crop the bathymetry raster at last
 bathymetry_cropped <- crop(bathymetry_resampled, sst_average_celsius)
+
 ```
 
 Now, to verify that my processing thus far has been successful, I will run a series of tests. One way to know that the rasters match, is if they are able to be successfully stacked together. This code will test for stackability, and then I will finally stack the two together. 
 
 ```{r}
+#| echo: true
+#| output: asis
+
 # Check if the rasters have the same resolution
 res_match <- all(res(bathymetry_cropped) == res(sst_average_celsius))
 
@@ -149,9 +155,9 @@ extent_match <- ext(bathymetry_cropped) == ext(sst_average_celsius)
 crs_match <- crs(bathymetry_cropped) == crs(sst_average_celsius)
 
 # Print the results
-print(paste("Resolution match:", res_match))
-print(paste("Extent match:", extent_match))
-print(paste("CRS match:", crs_match))
+cat("Resolution match:", res_match,"\n")
+cat("Extent match:", extent_match,"\n")
+cat("CRS match:", crs_match,"\n")
 
 # Check if the rasters can be stacked
 if (res_match && extent_match && crs_match) {
@@ -164,12 +170,12 @@ if (res_match && extent_match && crs_match) {
 bathy_sst <- c(bathymetry_cropped, sst_average_celsius)
 ```
 
-
+## Oysters: A "Pearl-fect" Match
 
 
 After the data is properly prepared and processed, I can begin the analysis to find suitable locations for marine aquaculture. This means finding locations that are suitable in terms of both SST and depth. 
 
-I will begin my analysis with Oysters. Research has shown that oyster need the following conditions for optimal growth: 
+I will begin my analysis with oysters. Research has shown that oyster need the following conditions for optimal growth: 
 
 - sea surface temperature: 11-30°C
 - depth: 0-70 meters below sea level
