@@ -26,6 +26,11 @@ library(terra)
 library(tmap)
 library(tmaptools)
 library(here)
+library(testthat)
+library(patchwork)
+library(ggplot2)
+library(tidyterra)
+library(patchwork)
 ```
 
 ```{r}
@@ -48,32 +53,119 @@ maritime_boundaries <- read_sf(here::here("data", "wc_regions_clean.shp"))
 ```
 
 ```{r}
-# Put any functions I create here!
+# Put any functions I create here?
 ```
 
 ```{r}
 # Transform the CRS of the files to match
+bathymetry <- terra::project(bathymetry, crs(sst_stack))
+
+maritime_boundaries <- maritime_boundaries %>% 
+  st_transform(crs = st_crs(bathymetry))
 ```
 
-In order to perform our analysis, the data must be processed. Specifically, I must ensure that the Sea Surface Temperature data and Depth data can be combined. 
 
 ```{r}
-# I need to process the SST and depth data so they can be combined, since they have different resolutions, extents, and positions
+# Confirm that the CRS transformed as expected
+test_that("The CRS of all data sets match", {
+  expect_true(crs(sst_stack) == crs(bathymetry) && crs(bathymetry) == crs(maritime_boundaries))
+})
+```
 
+In order to perform this analysis, the data must be processed. Specifically, I must ensure that the Sea Surface Temperature data and Depth data can be combined, since the data have different resolutions, extents, and positions.
+
+
+```{r}
 # Find the mean SST from 2008-2012 (eg create single raster of average SST...)
-
-
+sst_average <- mean(sst_stack)
 
 # Convert average SST from Kelvin to Celsius by subtracting 273.15
-
-
-# Crop depth raster to match the extent of the SST raster - BUT the resolutions dont match so....
-
-# Resample the depth data to match the resolution of the SST data using the nearest neighbor approach
-
-# Check that the depth and SST match in resolution, extend, and CRS (hint: can the rasters be stacked?)
+sst_average_celsius <- sst_average - 273.15
 
 ```
+
+After some initial processing of the SST raster stack, I want to take a quick look at the the bathymetry and SST data, to see what further processing might need to be done.
+
+```{r}
+plot(bathymetry)
+```
+```{r}
+plot(sst_average_celsius)
+```
+```{r}
+
+# Plot bathymetry raster
+plot_bathymetry <- ggplot() +
+  geom_spatraster(data = bathymetry) +
+  scale_fill_viridis_c(name = "Depth") +
+  ggtitle("Bathymetry") +
+  theme_minimal()
+
+# Plot SST raster
+plot_sst <- ggplot() +
+  geom_spatraster(data = sst_average_celsius) +
+  scale_fill_viridis_c(name = "Temperature (°C)") +
+  ggtitle("Average SST (°C)") +
+  theme_minimal()
+
+# Combine the plots
+plot_bathymetry + plot_sst
+
+```
+I suspect that the resolutions of these raster objects do not match, so I run a quick check to see:
+
+```{r}
+print(res(sst_average_celsius))
+print(res(bathymetry))
+```
+This check confirms my suspicions, and I decide to resample the bathymetry data to match the resolution of the SST data, using the nearest neighbor approach.
+
+```{r}
+# Resample the bathymetry data to match the resolution of the SST data using the nearest neighbor approach
+bathymetry_resampled <- resample(bathymetry, sst_stack, method = "near")
+
+# Verify the results
+print(res(sst_average_celsius))
+print(res(bathymetry_resampled))
+
+# Check that the depth and SST match in resolution, extend, and CRS (hint: can the rasters be stacked?)
+```
+Now that the resolutions and CRS of the data matches, I can crop the bathymetry raster to match the extent of the SST raster. 
+
+```{r}
+bathymetry_cropped <- crop(bathymetry_resampled, sst_average_celsius)
+```
+
+Now, to verify that my processing thus far has been successful, I will run a series of tests. One way to know that the rasters match, is if they are able to be successfully stacked together. This code will test for stackability, and then I will finally stack the two together. 
+
+```{r}
+# Check if the rasters have the same resolution
+res_match <- all(res(bathymetry_cropped) == res(sst_average_celsius))
+
+# Check if the rasters have the same extent
+extent_match <- ext(bathymetry_cropped) == ext(sst_average_celsius)
+
+# Check if the rasters have the same CRS
+crs_match <- crs(bathymetry_cropped) == crs(sst_average_celsius)
+
+# Print the results
+print(paste("Resolution match:", res_match))
+print(paste("Extent match:", extent_match))
+print(paste("CRS match:", crs_match))
+
+# Check if the rasters can be stacked
+if (res_match && extent_match && crs_match) {
+  print("The rasters can be stacked. Aw yeah!")
+} else {
+  print("The rasters cannot be stacked. Check your work!!!")
+}
+
+# Finally, lets do it! Stack that raster!
+bathy_sst <- c(bathymetry_cropped, sst_average_celsius)
+```
+
+
+
 
 After the data is properly prepared and processed, I can begin the analysis to find suitable locations for marine aquaculture. This means finding locations that are suitable in terms of both SST and depth. 
 
@@ -91,7 +183,7 @@ The SST and depth rasters should now identify the suitability of locations as 0 
 ```
 
 ```{r}
-# Find locations taht satisfy both SST and depth conditions 
+# Find locations that satisfy both SST and depth conditions 
 ```
 
 
