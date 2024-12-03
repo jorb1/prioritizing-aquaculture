@@ -182,7 +182,9 @@ I will begin my analysis with oysters. Research has shown that oyster need the f
 
 With this in mind, I will first reclassify the SST data to only include raster values that are between 11 and 30 degrees Celsius. Using a similar process, I will reclassify the depth data to only include values that are above 70 meters below sea level. Let's see what that looks like:
 
-```{r}
+
+```{r, fig.width=10, fig.height=6}
+
 # Turn unneeded values to NA
 optimal_sst <- sst_average_celsius
 optimal_sst[optimal_sst < 11 | optimal_sst > 30] <- NA
@@ -190,10 +192,6 @@ optimal_sst[optimal_sst < 11 | optimal_sst > 30] <- NA
 # Do it again for the bathymetry data
 optimal_bath <- bathymetry_cropped
 optimal_bath[optimal_bath < -70 | optimal_bath > 0] <- NA
-```
-
-
-```{r, fig.width=10, fig.height=6}
 
 # Plot optimal bathymetry raster
 plot_optimal_bath <- ggplot() +
@@ -213,37 +211,99 @@ plot_optimal_sst <- ggplot() +
 plot_optimal_bath + plot_optimal_sst
 
 ```
-To find suitable locations for oyster marine aquaculture, we’ll need to find locations that are suitable in terms of both SST and depth.Let's do it with code!
+To find suitable locations for oyster marine aquaculture, we’ll need to find locations that are suitable in terms of both SST and depth. Let's do it with code!
 
-```{r}
+```{r, fig.width=10, fig.height=6}
 # Use map algebra to find areas of overlap
 overlap <- !is.na(optimal_sst) & !is.na(optimal_bath)
 
-combined_values <- optimal_sst * overlap + optimal_bath * overlap
-plot(combined_values, main = "Area Optimal for Oyster Growth")
+big_optimal <- optimal_sst * overlap + optimal_bath * overlap
+plot(big_optimal, main = "Area Optimal for Oyster Growth")
 
 ```
-### Determine the most suitable EEZ (Exclusive Economic ZOne) best suited for developing marine aquaculture for Oysters. 
+The result we get is a map showing a relatively thin line representing the areas of the West Coast of the United States that have the most optimal conditions for oyster aquaculture. 
+
+### Determine the most suitable EEZ (Exclusive Economic Zone) best suited for developing marine aquaculture for Oysters. 
 
 Now, its time to bring in our EEZ data, to determine which EEZs best overlap with our zones of optimal conditions for oysters.  
 
 First, lets take a look at the maritime boundaries data that we have.
-
 ```{r}
 plot(maritime_boundaries)
+```
+
+
+```{r, fig.width=10, fig.height=6}
+tm_shape(maritime_boundaries) +
+  tm_polygons(col = "rgn",
+              palette = "RdYlBu",
+              title = "Region Name") +
+  tm_layout(main.title = "West Coast EEZs",
+            main.title.position = "center",
+            legend.position = c(0.55, 0.60))
+```
+I need to select suitable cells within West Coast EEZs
+```{r, fig.width=10, fig.height=6}
+# Raterize the vector data
+maritime_raster <- rasterize(maritime_boundaries, big_optimal)
+
+# Find overlap: cells with non-NA values in both rasters
+maritime_overlap <- !is.na(maritime_raster) & !is.na(big_optimal)
+
+# Mask big_optimal to retain only overlapping cells
+eez_mask <- mask(big_optimal, maritime_overlap)
+
+# Convert overlap raster to polygons for tmap magic
+overlap_vector <- as.polygons(eez_mask) %>% 
+  st_as_sf()
+
+# Map both vector and raster data
+tm_shape(maritime_boundaries) +
+  tm_polygons(col = "rgn",
+              palette = "RdYlBu",
+              #alpha = .5,
+              title = "Region Name") +  
+  tm_shape(overlap_vector) +
+    tm_polygons(1) +
+    tm_layout(main.title = "EEZs with Optimal\nOyster Habitat",
+              main.title.position = "center",
+              legend.outside = TRUE)
+
+```
+
+```{r}
+# Convert raster to a data frame for plotting
+big_optimal_df <- as.data.frame(big_optimal, xy = TRUE, na.rm = TRUE)
+
+# Convert the eez_mask vector to an sf object
+overlap_sf <- st_as_sf(as.polygons(eez_mask))
+
+# Step 3: Plot with ggplot2
+# ggplot() +
+#   geom_sf(data = maritime_boundaries, fill = "lightblue", col = "black", alpha = 0.5) +
+#   geom_raster(data = big_optimal_df, aes(x = x, y = y), interpolate = TRUE) +
+#   scale_fill_viridis_c(option = "D") +  # Customize color scale as needed
+#   geom_sf(data = overlap_sf, fill = "black", alpha = 0.5) +
+#   theme_bw() +
+#   ggtitle("EEZs with Optimal\nOyster Habitat") +
+#   theme(legend.position = "bottom")
+ggplot(data = big_optimal_df, aes(x = x, y = y)) +
+  geom_point(shape = 16) +
+  labs(x = "Longitude",
+       y = "Latitude",
+       title = "Optimal Oytsers") +
+  theme_bw()
 ```
 ```{r}
 tm_shape(maritime_boundaries) +
   tm_polygons(col = "rgn",
-              palette = "RdBu",
-              title = "Region Name") +
-  tm_layout(main.title = "West Coast EEZs",
-            main.title.position = "center")
+              palette = "RdYlBu",
+              #alpha = .5,
+              title = "Region Name") + 
+  tm_shape(big_optimal_df) +
+  tm_dots()
 ```
 
-```{r}
-# Select suitable cells within West Coast EEZs
-```
 
 ```{r}
 # Find the area of the grid cells we find
