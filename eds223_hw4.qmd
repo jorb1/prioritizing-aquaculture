@@ -180,13 +180,51 @@ I will begin my analysis with oysters. Research has shown that oyster need the f
 - sea surface temperature: 11-30°C
 - depth: 0-70 meters below sea level
 
-*(
-Tip: finding suitable locations
-The SST and depth rasters should now identify the suitability of locations as 0 or 1. To find locations that have both suitable temperature and depth, you can use map algebra. One idea is to multiple the values of the cells, using the lapp() function.)*
+With this in mind, I will first reclassify the SST data to only include raster values that are between 11 and 30 degrees Celsius. Using a similar process, I will reclassify the depth data to only include values that are above 70 meters below sea level. Let's see what that looks like:
 
 ```{r}
-# Reclassify SST and depth data into locations that are suitable for oysters. (hint: set suitable values to 1 and unsuitable values to 0)
+# Turn unneeded values to NA
+optimal_sst <- sst_average_celsius
+optimal_sst[optimal_sst < 11 | optimal_sst > 30] <- NA
+
+# Do it again for the bathymetry data
+optimal_bath <- bathymetry_cropped
+optimal_bath[optimal_bath < -70 | optimal_bath > 0] <- NA
 ```
+
+
+```{r, fig.width=10, fig.height=6}
+
+# Plot optimal bathymetry raster
+plot_optimal_bath <- ggplot() +
+  geom_spatraster(data = optimal_bath) +
+  scale_fill_viridis_c(name = "Depth (m)") +
+  ggtitle("Optimal Depth (m) for Oysters") +
+  theme_minimal()
+
+# Plot optimal SST raster
+plot_optimal_sst <- ggplot() +
+  geom_spatraster(data = optimal_sst) +
+  scale_fill_viridis_c(name = "Temperature (°C)") +
+  ggtitle("Optimal SST (°C) for Oysters") +
+  theme_minimal()
+
+# Combine the plots
+plot_optimal_bath + plot_optimal_sst
+
+```
+To find suitable locations for oyster marine aquaculture, we’ll need to find locations that are suitable in terms of both SST and depth.Let's do it with code!
+
+```{r}
+# Use map algebra to find areas of overlap
+overlap <- !is.na(optimal_sst) & !is.na(optimal_bath)
+
+combined_values <- optimal_sst * overlap + optimal_bath * overlap
+plot(combined_values, main = "Area Optimal for Oyster Growth")
+
+```
+
+
 
 ```{r}
 # Find locations that satisfy both SST and depth conditions 
