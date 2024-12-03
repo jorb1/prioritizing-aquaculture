@@ -223,14 +223,35 @@ combined_values <- optimal_sst * overlap + optimal_bath * overlap
 plot(combined_values, main = "Area Optimal for Oyster Growth")
 
 ```
+### Determine the most suitable EEZ (Exclusive Economic ZOne) best suited for developing marine aquaculture for Oysters. 
 
+Now, its time to bring in our EEZ data, to determine which EEZs best overlap with our zones of optimal conditions for oysters.  
 
+First, lets take a look at the maritime boundaries data that we have.
 
 ```{r}
-# Find locations that satisfy both SST and depth conditions 
+plot(maritime_boundaries)
+```
+```{r}
+tm_shape(maritime_boundaries) +
+  tm_polygons(col = "rgn",
+              palette = "RdBu",
+              title = "Region Name") +
+  tm_layout(main.title = "West Coast EEZs",
+            main.title.position = "center")
 ```
 
+```{r}
+# Select suitable cells within West Coast EEZs
+```
 
+```{r}
+# Find the area of the grid cells we find
+```
+
+```{r}
+# Find the total suitable area within each EEZ (hint: it might be helful to rasterize the EEZ data)
+```
 
 
 
