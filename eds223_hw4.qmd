@@ -69,10 +69,6 @@ maritime_boundaries <- read_sf(here::here("data", "wc_regions_clean.shp"))
 ```
 
 ```{r}
-# Put any functions I create here?
-```
-
-```{r}
 # Transform the CRS of the files to match
 bathymetry <- terra::project(bathymetry, crs(sst_stack))
 
@@ -124,6 +120,7 @@ plot_bathymetry + plot_sst
 I suspect that the resolutions of these raster objects do not match, so I run a quick check to see:
 
 ```{r, echo=TRUE, results='markdown'}
+# Check to see if the resolutions match
 cat("Resolution of SST Average (°C):", res(sst_average_celsius)[1], "x", res(sst_average_celsius)[2], "\n")
 cat("Resolution of Bathymetry:", res(bathymetry)[1], "x", res(bathymetry)[2], "\n")
 ```
@@ -188,7 +185,7 @@ With this in mind, I will first reclassify the SST data to only include raster v
 
 ```{r, fig.width=10, fig.height=6}
 
-# Turn unneeded values to NA (change to matrix?)
+# Turn unneeded values to NA
 optimal_sst <- sst_average_celsius
 optimal_sst[optimal_sst < 11 | optimal_sst > 30] <- NA
 
@@ -234,9 +231,7 @@ First, lets take a look at the maritime boundaries data that we have.
 
 
 ```{r, fig.width=10, fig.height=6}
-
 # Map
-
 tm_shape(maritime_boundaries) +
   tm_polygons(col = "rgn",
               palette = "RdYlBu",
@@ -246,25 +241,19 @@ tm_shape(maritime_boundaries) +
             legend.position = c(0.55, 0.60)) +
   tm_shape(us_states) +
     tm_polygons(alpha = .20) 
-
-
-
 ```
 Now the question remains: what percent of each EEZ region contains suitable area for oyster cultivation? Using the optimal oyster conditions we already calculated, as well as the EEZ information we have in our dataframe, we can calculate this. 
 
 Our final product is a map of visualizations thus far, and a nice table that presents the final numbers from our analysis.  
 
-
 ```{r, fig.width=10, fig.height=6}
- 
 # Let's make a plot!
-# Raterize the vector data
-maritime_raster <- rasterize(maritime_boundaries, big_optimal, field = "rgn")
 
 # Map both raster data sets
 final_map <- tm_shape(maritime_boundaries) +
   tm_polygons(col = "rgn",
-              palette = "RdYlBu",
+              palette = "Blues",
+              alpha = .60,
               title = "Region Name") +
   tm_layout(main.title = "West Coast EEZs",
             main.title.position = "center",
@@ -272,7 +261,11 @@ final_map <- tm_shape(maritime_boundaries) +
   tm_shape(us_states) +
     tm_polygons(alpha = .20) +  
    tm_shape(big_optimal) +
-     tm_raster() +
+     tm_raster(legend.show = TRUE,
+               title = "Total Suitable\nArea (km^2)",
+               palette = "red",
+               breaks = seq(0, 5, by = 5),
+               labels = " ") +
      tm_layout(main.title = "EEZs with Optimal\nOyster Habitat",
                main.title.position = "center",
                legend.outside = FALSE)
@@ -317,6 +310,153 @@ final_table <- eez_oyster |>
 final_table
 ```
 
+## SHRIMPS IS BUGS
+
+According to Boyd et. all, one of the most common species of shrimp harvested using aquaculture is Penaeus setiferus, or White Shrimp. According to SeaLifeBase, this shrimp species requires the following conditions for optimal growth:
+
+- sea surface temperature: 15.3-27.3°C
+- depth: 0-119 meters below sea level
+
+I want to run the same analysis for shrimps, that I did for oysters. In order to do that, I will create a function that utilizes the same steps above, but would only require me to input the parameters of the analysis, and result in a comprehensive map and table. 
+
+First I will create the function, called optimal_aquaculture:
+
+```{r}
+optimal_aquaculture <- function(sst_data, bathy_data, eez_data, species, min_temp, max_temp, min_depth, max_depth) {
+  # Transform the CRS of the files to match
+  bathymetry <- terra::project(bathy_data, crs(sst_data))
+
+  maritime_boundaries <- eez_data %>% 
+    st_transform(crs = st_crs(bathymetry))
+
+  # Confirm that the CRS transformed as expected
+  test_that("The CRS of all data sets match", {
+    expect_true(crs(sst_data) == crs(bathymetry) && crs(bathymetry) == crs(maritime_boundaries))
+  })
+
+  # Find the mean SST from 2008-2012 (e.g., create single raster of average SST)
+  sst_average <- mean(sst_data)
+
+  # Convert average SST from Kelvin to Celsius by subtracting 273.15
+  sst_average_celsius <- sst_average - 273.15
+
+  # Resample the bathymetry data to match the resolution of the SST data using the nearest neighbor approach
+  bathymetry_resampled <- resample(bathymetry, sst_average_celsius, method = "near")
+
+  test_that("The Resolutions of the Rasters match", {
+    expect_true(res(bathymetry)[1] == res(sst_average_celsius)[1]) && 
+      (res(bathymetry)[2] == res(sst_average_celsius)[2])
+  })
+
+  # Crop the bathymetry raster
+  bathymetry_cropped <- crop(bathymetry_resampled, sst_average_celsius)
+
+  test_that("The resolutions of the cropped rasters match", {
+    expect_true(all(res(bathymetry_cropped) == res(sst_average_celsius)))
+  })
+
+  test_that("The rasters have the same extent", {
+    expect_true(ext(bathymetry_cropped) == ext(sst_average_celsius))
+  })
+
+  test_that("The rasters have the same CRS", {
+    expect_true(crs(bathymetry_cropped) == crs(sst_average_celsius))
+  })
+
+  # As a final check, stack the rasters
+  bathy_sst <- c(bathymetry_cropped, sst_average_celsius)
+
+  # Turn unneeded values to NA
+  optimal_sst <- sst_average_celsius
+  optimal_sst[optimal_sst < min_temp | optimal_sst > max_temp] <- NA
+
+  # Do it again for the bathymetry data
+  optimal_bath <- bathymetry_cropped
+  optimal_bath[optimal_bath < max_depth | optimal_bath > min_depth] <- NA
+
+  # Use map algebra to find areas of overlap
+  overlap <- !is.na(optimal_sst) & !is.na(optimal_bath)
+  big_optimal <- optimal_sst * overlap + optimal_bath * overlap
+
+  # Map both raster data sets
+  final_map <- tm_shape(eez_data) +
+    tm_polygons(col = "rgn",
+                palette = "Blues",
+                alpha = .60,
+                title = "Region Name") +
+    tm_layout(main.title = "West Coast EEZs",
+              main.title.position = "center",
+              legend.position = c(0.55, 0.50)) +
+    tm_shape(us_states) +
+      tm_polygons(alpha = .20) +  
+    tm_shape(big_optimal) +
+      tm_raster(legend.show = TRUE,
+                title = "Total Suitable\nArea (km^2)",
+                palette = "red",
+                breaks = seq(0, 5, by = 5),
+                labels = " ") +
+      tm_layout(main.title = "EEZs with Optimal\nspecies Habitat",
+                main.title.position = "center",
+                legend.outside = FALSE)
+  print(final_map)
+
+  # Rasterize the EEZ dataframe using the 'rgn' column
+  eez_rast <- terra::rasterize(eez_data, big_optimal, field = "rgn")
+
+  # Create a dataframe that displays the suitable area of each zone
+  suitable_area <- terra::expanse(big_optimal, unit = "km", zones = eez_rast)
+
+  # Rename columns
+  suitable_area <- suitable_area %>% 
+    rename("suitable_area_km2" = "area",
+           "rgn" = "zone")
+
+  # Calculate the percent of each zone that contains suitable area for oyster aquaculture 
+  eez_species <- eez_data %>% 
+    left_join(suitable_area, by = "rgn") %>% 
+    mutate(zone_pct = suitable_area_km2 / area_km2 * 100) %>% 
+    select("rgn", "area_km2", "suitable_area_km2", "zone_pct") %>% 
+    st_drop_geometry()
+
+  # Create a table to show this estimate
+  final_table <- eez_species |>
+    gt() |>
+    gt_theme_nytimes() |>
+    tab_header(title = "EEZ Aquaculture Calculations for species") |>
+    cols_label(
+      rgn = "EEZ Region",
+      area_km2 = "Square Kilometers of EEZ",
+      suitable_area_km2 = "Square Kilometers of Optimal Area",
+      zone_pct = "Percentage of EEZ Suitable for Aquaculture"
+    ) |>
+    tab_style(
+      style = cell_text(weight = "bold"),
+      locations = cells_body()
+    )
+
+  return(final_table)
+}
+
+```
+
+And then I will use it to run an analysis of optimal conditions for White Shrimp aquaculture:
+
+```{r}
+optimal_aquaculture()
+```
+
+## Conclusion
 
 
+
+
+## Citations
+
+Boyd, Claude E., and Jason W. Clay. “Shrimp Aquaculture and the Environment.” Scientific American 278, no. 6 (1998): 58–65. http://www.jstor.org/stable/26057855.
+
+https://www.sealifebase.ca/summary/Penaeus-setiferus.html
+
+### Acknowledgements
+
+Special shoutout to Jordan Sibley, who helped me debug a particularly fraught piece of code in this analysis.
 
