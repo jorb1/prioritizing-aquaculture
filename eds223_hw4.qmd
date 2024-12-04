@@ -115,24 +115,19 @@ plot_sst <- ggplot() +
 
 # Combine the plots
 plot_bathymetry + plot_sst
-
 ```
-I suspect that the resolutions of these raster objects do not match, so I run a quick check to see:
 
-```{r, echo=TRUE, results='markdown'}
-# Check to see if the resolutions match
-cat("Resolution of SST Average (°C):", res(sst_average_celsius)[1], "x", res(sst_average_celsius)[2], "\n")
-cat("Resolution of Bathymetry:", res(bathymetry)[1], "x", res(bathymetry)[2], "\n")
-```
-This check confirms my suspicions, and I decide to resample the bathymetry data to match the resolution of the SST data, using the nearest neighbor approach. Once the resolutions and CRS of the data matches, I can crop the bathymetry raster to match the extent of the SST raster. 
+I know from the metadata that the resolutions of these raster objects do not match, so I decide to resample the bathymetry data to match the resolution of the SST data, using the nearest neighbor approach. Once the resolutions and CRS of the data matches, I can crop the bathymetry raster to match the extent of the SST raster. 
 
 ```{r, echo=TRUE, results='asis'}
 # Resample the bathymetry data to match the resolution of the SST data using the nearest neighbor approach
 bathymetry_resampled <- resample(bathymetry, sst_stack, method = "near")
 
 # Verify the results
-cat("Matched Resolution of SST Average (°C):", res(sst_average_celsius)[1], "x", res(sst_average_celsius)[2], "\n")
-cat("Matched Resolution of Bathymetry:", res(bathymetry)[1], "x", res(bathymetry_resampled)[2], "\n")
+test_that("The Resolutions of the Rasters match", {
+    expect_true(res(bathymetry_resampled)[1] == res(sst_average_celsius)[1]) && 
+      (res(bathymetry_resampled)[2] == res(sst_average_celsius)[2])
+  })
     
 # Crop the bathymetry raster at last
 bathymetry_cropped <- crop(bathymetry_resampled, sst_average_celsius)
@@ -145,26 +140,17 @@ Now, to verify that my processing thus far has been successful, I will run a ser
 #| echo: true
 #| output: asis
 
-# Check if the rasters have the same resolution
-res_match <- all(res(bathymetry_cropped) == res(sst_average_celsius))
+test_that("The resolutions of the cropped rasters match", {
+  expect_true(all(res(bathymetry_cropped) == res(sst_average_celsius)))
+})
 
-# Check if the rasters have the same extent
-extent_match <- ext(bathymetry_cropped) == ext(sst_average_celsius)
+test_that("The rasters have the same extent", {
+  expect_true(ext(bathymetry_cropped) == ext(sst_average_celsius))
+})
 
-# Check if the rasters have the same CRS
-crs_match <- crs(bathymetry_cropped) == crs(sst_average_celsius)
-
-# Print the results
-cat("Resolution match:", res_match,"\n")
-cat("Extent match:", extent_match,"\n")
-cat("CRS match:", crs_match,"\n")
-
-# Check if the rasters can be stacked
-if (res_match && extent_match && crs_match) {
-  print("The rasters can be stacked. Aw yeah!")
-} else {
-  print("The rasters cannot be stacked. Check your work!!!")
-}
+test_that("The rasters have the same CRS", {
+  expect_true(crs(bathymetry_cropped) == crs(sst_average_celsius))
+})
 
 # Finally, lets do it! Stack that raster!
 bathy_sst <- c(bathymetry_cropped, sst_average_celsius)
@@ -230,8 +216,8 @@ Now, its time to bring in our EEZ data, to determine which EEZs best overlap wit
 First, lets take a look at the maritime boundaries data that we have.
 
 
-```{r, fig.width=10, fig.height=6}
-# Map
+```{r, fig.width=12, fig.height=8}
+# Map the EEZs
 tm_shape(maritime_boundaries) +
   tm_polygons(col = "rgn",
               palette = "RdYlBu",
@@ -246,7 +232,7 @@ Now the question remains: what percent of each EEZ region contains suitable area
 
 Our final product is a map of visualizations thus far, and a nice table that presents the final numbers from our analysis.  
 
-```{r, fig.width=10, fig.height=6}
+```{r, fig.width=12, fig.height=8}
 # Let's make a plot!
 
 # Map both raster data sets
@@ -255,9 +241,7 @@ final_map <- tm_shape(maritime_boundaries) +
               palette = "Blues",
               alpha = .60,
               title = "Region Name") +
-  tm_layout(main.title = "West Coast EEZs",
-            main.title.position = "center",
-            legend.position = c(0.55, 0.50)) +
+  tm_layout() +
   tm_shape(us_states) +
     tm_polygons(alpha = .20) +  
    tm_shape(big_optimal) +
@@ -268,7 +252,8 @@ final_map <- tm_shape(maritime_boundaries) +
                labels = " ") +
      tm_layout(main.title = "EEZs with Optimal\nOyster Habitat",
                main.title.position = "center",
-               legend.outside = FALSE)
+               legend.outside = FALSE,
+               legend.position = c(0.55, 0.50))
 print(final_map)
 ```
 
@@ -310,7 +295,7 @@ final_table <- eez_oyster |>
 final_table
 ```
 
-## SHRIMPS IS BUGS
+## Aquaculture made "Shrimple"
 
 According to Boyd et. all, one of the most common species of shrimp harvested using aquaculture is Penaeus setiferus, or White Shrimp. According to SeaLifeBase, this shrimp species requires the following conditions for optimal growth:
 
@@ -321,7 +306,7 @@ I want to run the same analysis for shrimps, that I did for oysters. In order to
 
 First I will create the function, called optimal_aquaculture:
 
-```{r}
+```{r, fig.width=15, fig.height=11}
 optimal_aquaculture <- function(sst_data, bathy_data, eez_data, species, min_temp, max_temp, min_depth, max_depth) {
   # Transform the CRS of the files to match
   bathymetry <- terra::project(bathy_data, crs(sst_data))
@@ -344,8 +329,8 @@ optimal_aquaculture <- function(sst_data, bathy_data, eez_data, species, min_tem
   bathymetry_resampled <- resample(bathymetry, sst_average_celsius, method = "near")
 
   test_that("The Resolutions of the Rasters match", {
-    expect_true(res(bathymetry)[1] == res(sst_average_celsius)[1]) && 
-      (res(bathymetry)[2] == res(sst_average_celsius)[2])
+    expect_true(res(bathymetry_resampled)[1] == res(sst_average_celsius)[1]) && 
+      (res(bathymetry_resampled)[2] == res(sst_average_celsius)[2])
   })
 
   # Crop the bathymetry raster
@@ -384,9 +369,7 @@ optimal_aquaculture <- function(sst_data, bathy_data, eez_data, species, min_tem
                 palette = "Blues",
                 alpha = .60,
                 title = "Region Name") +
-    tm_layout(main.title = "West Coast EEZs",
-              main.title.position = "center",
-              legend.position = c(0.55, 0.50)) +
+    tm_layout() +
     tm_shape(us_states) +
       tm_polygons(alpha = .20) +  
     tm_shape(big_optimal) +
@@ -395,9 +378,10 @@ optimal_aquaculture <- function(sst_data, bathy_data, eez_data, species, min_tem
                 palette = "red",
                 breaks = seq(0, 5, by = 5),
                 labels = " ") +
-      tm_layout(main.title = "EEZs with Optimal\nspecies Habitat",
+      tm_layout(main.title = paste("EEZs with Optimal\n", species, "\nHabitat"),
                 main.title.position = "center",
-                legend.outside = FALSE)
+                legend.outside = FALSE,
+                legend.position = c(0.55, 0.50))
   print(final_map)
 
   # Rasterize the EEZ dataframe using the 'rgn' column
@@ -422,7 +406,7 @@ optimal_aquaculture <- function(sst_data, bathy_data, eez_data, species, min_tem
   final_table <- eez_species |>
     gt() |>
     gt_theme_nytimes() |>
-    tab_header(title = "EEZ Aquaculture Calculations for species") |>
+    tab_header(title = paste("EEZ Aquaculture Calculations for", species)) |>
     cols_label(
       rgn = "EEZ Region",
       area_km2 = "Square Kilometers of EEZ",
@@ -442,8 +426,10 @@ optimal_aquaculture <- function(sst_data, bathy_data, eez_data, species, min_tem
 And then I will use it to run an analysis of optimal conditions for White Shrimp aquaculture:
 
 ```{r}
-optimal_aquaculture()
+optimal_aquaculture(sst_data = sst_stack, bathy_data = bathymetry, eez_data = maritime_boundaries, species = "White Shrimp", min_temp = 15.3, max_temp = 27.3, min_depth = 0, max_depth = -119)
 ```
+
+While obviously useful to analyzing spatial data for shrimp, this function can be used for any variety of cultivated seafoods, so long as the parameters are known and the data is available. 
 
 ## Conclusion
 
@@ -454,9 +440,21 @@ optimal_aquaculture()
 
 Boyd, Claude E., and Jason W. Clay. “Shrimp Aquaculture and the Environment.” Scientific American 278, no. 6 (1998): 58–65. http://www.jstor.org/stable/26057855.
 
-https://www.sealifebase.ca/summary/Penaeus-setiferus.html
+Hall, S. J., Delaporte, A., Phillips, M. J., Beveridge, M. & O’Keefe, M. Blue Frontiers: Managing the Environmental Costs of Aquaculture (The WorldFish Center, Penang, Malaysia, 2011).
+
+Gentry, R. R., Froehlich, H. E., Grimm, D., Kareiva, P., Parke, M., Rust, M., Gaines, S. D., & Halpern, B. S. Mapping the global potential for marine aquaculture. Nature Ecology & Evolution, 1, 1317-1324 (2017).
+
+GEBCO Compilation Group (2022) GEBCO_2022 Grid (doi:10.5285/e0f0bb80-ab44-2739-e053-6c86abc0289c).
+
+R. Oliver, EDS 223 - Geospatial Analysis and Remote Sensing, Course Notes. 2024. [Online]. Available: https://eds-223-geospatial.github.io/
+
+SeaLifeBase. "Penaeus setiferus (Linnaeus, 1767) - Northern White Shrimp." Accessed December 3, 2024. https://sealifebase.org.
 
 ### Acknowledgements
 
 Special shoutout to Jordan Sibley, who helped me debug a particularly fraught piece of code in this analysis.
+
+```{r out.width = "50%", fig.align = "center"}
+knitr::include_graphics("data/IMG_20241203_193746.jpg")
+```
 

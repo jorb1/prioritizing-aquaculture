@@ -86,6 +86,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#determine-the-most-suitable-eez-exclusive-economic-zone-best-suited-for-developing-marine-aquaculture-for-oysters." id="toc-determine-the-most-suitable-eez-exclusive-economic-zone-best-suited-for-developing-marine-aquaculture-for-oysters." class="nav-link" data-scroll-target="#determine-the-most-suitable-eez-exclusive-economic-zone-best-suited-for-developing-marine-aquaculture-for-oysters.">Determine the most suitable EEZ (Exclusive Economic Zone) best suited for developing marine aquaculture for Oysters.</a></li>
   </ul></li>
+  <li><a href="#aquaculture-made-shrimple" id="toc-aquaculture-made-shrimple" class="nav-link" data-scroll-target="#aquaculture-made-shrimple">Aquaculture made “Shrimple”</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  <li><a href="#citations" id="toc-citations" class="nav-link" data-scroll-target="#citations">Citations</a>
+  <ul class="collapse">
+  <li><a href="#acknowledgements" id="toc-acknowledgements" class="nav-link" data-scroll-target="#acknowledgements">Acknowledgements</a></li>
+  </ul></li>
   </ul>
 </nav>
 </div>
@@ -128,22 +134,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Put any functions I create here?</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Transform the CRS of the files to match</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>bathymetry <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">project</span>(bathymetry, <span class="fu">crs</span>(sst_stack))</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>maritime_boundaries <span class="ot">&lt;-</span> maritime_boundaries <span class="sc">%&gt;%</span> </span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_transform</span>(<span class="at">crs =</span> <span class="fu">st_crs</span>(bathymetry))</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Confirm that the CRS transformed as expected</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">test_that</span>(<span class="st">"The CRS of all data sets match"</span>, {</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expect_true</span>(<span class="fu">crs</span>(sst_stack) <span class="sc">==</span> <span class="fu">crs</span>(bathymetry) <span class="sc">&amp;&amp;</span> <span class="fu">crs</span>(bathymetry) <span class="sc">==</span> <span class="fu">crs</span>(maritime_boundaries))</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Transform the CRS of the files to match</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>bathymetry <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">project</span>(bathymetry, <span class="fu">crs</span>(sst_stack))</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>maritime_boundaries <span class="ot">&lt;-</span> maritime_boundaries <span class="sc">%&gt;%</span> </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_transform</span>(<span class="at">crs =</span> <span class="fu">st_crs</span>(bathymetry))</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Confirm that the CRS transformed as expected</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">test_that</span>(<span class="st">"The CRS of all data sets match"</span>, {</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expect_true</span>(<span class="fu">crs</span>(sst_stack) <span class="sc">==</span> <span class="fu">crs</span>(bathymetry) <span class="sc">&amp;&amp;</span> <span class="fu">crs</span>(bathymetry) <span class="sc">==</span> <span class="fu">crs</span>(maritime_boundaries))</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Test passed 😸</code></pre>
@@ -156,38 +156,38 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Find the mean SST from 2008-2012 (eg create single raster of average SST...)</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>sst_average <span class="ot">&lt;-</span> <span class="fu">mean</span>(sst_stack)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert average SST from Kelvin to Celsius by subtracting 273.15</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>sst_average_celsius <span class="ot">&lt;-</span> sst_average <span class="sc">-</span> <span class="fl">273.15</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Find the mean SST from 2008-2012 (eg create single raster of average SST...)</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>sst_average <span class="ot">&lt;-</span> <span class="fu">mean</span>(sst_stack)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert average SST from Kelvin to Celsius by subtracting 273.15</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>sst_average_celsius <span class="ot">&lt;-</span> sst_average <span class="sc">-</span> <span class="fl">273.15</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>After some initial processing of the SST raster stack, I want to take a quick look at the the bathymetry and SST data, to see what further processing might need to be done.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot bathymetry raster</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>plot_bathymetry <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_spatraster</span>(<span class="at">data =</span> bathymetry) <span class="sc">+</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">name =</span> <span class="st">"Depth"</span>) <span class="sc">+</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Bathymetry"</span>) <span class="sc">+</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot SST raster</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>plot_sst <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_spatraster</span>(<span class="at">data =</span> sst_average_celsius) <span class="sc">+</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">name =</span> <span class="st">"Temperature (°C)"</span>) <span class="sc">+</span></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Average SST (°C)"</span>) <span class="sc">+</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine the plots</span></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>plot_bathymetry <span class="sc">+</span> plot_sst</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot bathymetry raster</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>plot_bathymetry <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_spatraster</span>(<span class="at">data =</span> bathymetry) <span class="sc">+</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">name =</span> <span class="st">"Depth"</span>) <span class="sc">+</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Bathymetry"</span>) <span class="sc">+</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot SST raster</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>plot_sst <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_spatraster</span>(<span class="at">data =</span> sst_average_celsius) <span class="sc">+</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">name =</span> <span class="st">"Temperature (°C)"</span>) <span class="sc">+</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Average SST (°C)"</span>) <span class="sc">+</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine the plots</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>plot_bathymetry <span class="sc">+</span> plot_sst</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="eds223_hw4_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="960"></p>
+<p><img src="eds223_hw4_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="960"></p>
 </figure>
 </div>
 </div>
@@ -196,14 +196,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Resolution of SST Average (°C):"</span>, <span class="fu">res</span>(sst_average_celsius)[<span class="dv">1</span>], <span class="st">"x"</span>, <span class="fu">res</span>(sst_average_celsius)[<span class="dv">2</span>], <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check to see if the resolutions match</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Resolution of SST Average (°C):"</span>, <span class="fu">res</span>(sst_average_celsius)[<span class="dv">1</span>], <span class="st">"x"</span>, <span class="fu">res</span>(sst_average_celsius)[<span class="dv">2</span>], <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Resolution of SST Average (°C): 0.04166185 x 0.04165702 </code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Resolution of Bathymetry:"</span>, <span class="fu">res</span>(bathymetry)[<span class="dv">1</span>], <span class="st">"x"</span>, <span class="fu">res</span>(bathymetry)[<span class="dv">2</span>], <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Resolution of Bathymetry:"</span>, <span class="fu">res</span>(bathymetry)[<span class="dv">1</span>], <span class="st">"x"</span>, <span class="fu">res</span>(bathymetry)[<span class="dv">2</span>], <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Resolution of Bathymetry: 0.004166667 x 0.004166667 </code></pre>
@@ -212,63 +213,63 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>This check confirms my suspicions, and I decide to resample the bathymetry data to match the resolution of the SST data, using the nearest neighbor approach. Once the resolutions and CRS of the data matches, I can crop the bathymetry raster to match the extent of the SST raster.</p>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Resample the bathymetry data to match the resolution of the SST data using the nearest neighbor approach</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>bathymetry_resampled <span class="ot">&lt;-</span> <span class="fu">resample</span>(bathymetry, sst_stack, <span class="at">method =</span> <span class="st">"near"</span>)</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Verify the results</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Matched Resolution of SST Average (°C):"</span>, <span class="fu">res</span>(sst_average_celsius)[<span class="dv">1</span>], <span class="st">"x"</span>, <span class="fu">res</span>(sst_average_celsius)[<span class="dv">2</span>], <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Resample the bathymetry data to match the resolution of the SST data using the nearest neighbor approach</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>bathymetry_resampled <span class="ot">&lt;-</span> <span class="fu">resample</span>(bathymetry, sst_stack, <span class="at">method =</span> <span class="st">"near"</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Verify the results</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Matched Resolution of SST Average (°C):"</span>, <span class="fu">res</span>(sst_average_celsius)[<span class="dv">1</span>], <span class="st">"x"</span>, <span class="fu">res</span>(sst_average_celsius)[<span class="dv">2</span>], <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <p>Matched Resolution of SST Average (°C): 0.04166185 x 0.04165702</p>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Matched Resolution of Bathymetry:"</span>, <span class="fu">res</span>(bathymetry)[<span class="dv">1</span>], <span class="st">"x"</span>, <span class="fu">res</span>(bathymetry_resampled)[<span class="dv">2</span>], <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Matched Resolution of Bathymetry:"</span>, <span class="fu">res</span>(bathymetry)[<span class="dv">1</span>], <span class="st">"x"</span>, <span class="fu">res</span>(bathymetry_resampled)[<span class="dv">2</span>], <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <p>Matched Resolution of Bathymetry: 0.004166667 x 0.04165702</p>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Crop the bathymetry raster at last</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>bathymetry_cropped <span class="ot">&lt;-</span> <span class="fu">crop</span>(bathymetry_resampled, sst_average_celsius)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Crop the bathymetry raster at last</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>bathymetry_cropped <span class="ot">&lt;-</span> <span class="fu">crop</span>(bathymetry_resampled, sst_average_celsius)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <p>Now, to verify that my processing thus far has been successful, I will run a series of tests. One way to know that the rasters match, is if they are able to be successfully stacked together. This code will test for stackability, and then I will finally stack the two together.</p>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check if the rasters have the same resolution</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>res_match <span class="ot">&lt;-</span> <span class="fu">all</span>(<span class="fu">res</span>(bathymetry_cropped) <span class="sc">==</span> <span class="fu">res</span>(sst_average_celsius))</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Check if the rasters have the same extent</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>extent_match <span class="ot">&lt;-</span> <span class="fu">ext</span>(bathymetry_cropped) <span class="sc">==</span> <span class="fu">ext</span>(sst_average_celsius)</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Check if the rasters have the same CRS</span></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>crs_match <span class="ot">&lt;-</span> <span class="fu">crs</span>(bathymetry_cropped) <span class="sc">==</span> <span class="fu">crs</span>(sst_average_celsius)</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the results</span></span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Resolution match:"</span>, res_match,<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check if the rasters have the same resolution</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>res_match <span class="ot">&lt;-</span> <span class="fu">all</span>(<span class="fu">res</span>(bathymetry_cropped) <span class="sc">==</span> <span class="fu">res</span>(sst_average_celsius))</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Check if the rasters have the same extent</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>extent_match <span class="ot">&lt;-</span> <span class="fu">ext</span>(bathymetry_cropped) <span class="sc">==</span> <span class="fu">ext</span>(sst_average_celsius)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Check if the rasters have the same CRS</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>crs_match <span class="ot">&lt;-</span> <span class="fu">crs</span>(bathymetry_cropped) <span class="sc">==</span> <span class="fu">crs</span>(sst_average_celsius)</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the results</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Resolution match:"</span>, res_match,<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <p>Resolution match: TRUE</p>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Extent match:"</span>, extent_match,<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Extent match:"</span>, extent_match,<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <p>Extent match: TRUE</p>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"CRS match:"</span>, crs_match,<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"CRS match:"</span>, crs_match,<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <p>CRS match: TRUE</p>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check if the rasters can be stacked</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (res_match <span class="sc">&amp;&amp;</span> extent_match <span class="sc">&amp;&amp;</span> crs_match) {</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="st">"The rasters can be stacked. Aw yeah!"</span>)</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="st">"The rasters cannot be stacked. Check your work!!!"</span>)</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check if the rasters can be stacked</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (res_match <span class="sc">&amp;&amp;</span> extent_match <span class="sc">&amp;&amp;</span> crs_match) {</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="st">"The rasters can be stacked. Aw yeah!"</span>)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="st">"The rasters cannot be stacked. Check your work!!!"</span>)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <p>[1] “The rasters can be stacked. Aw yeah!”</p>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Finally, lets do it! Stack that raster!</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>bathy_sst <span class="ot">&lt;-</span> <span class="fu">c</span>(bathymetry_cropped, sst_average_celsius)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Finally, lets do it! Stack that raster!</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>bathy_sst <span class="ot">&lt;-</span> <span class="fu">c</span>(bathymetry_cropped, sst_average_celsius)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </section>
 <section id="oysters-a-pearl-fect-match" class="level2">
@@ -283,35 +284,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Turn unneeded values to NA (change to matrix?)</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>optimal_sst <span class="ot">&lt;-</span> sst_average_celsius</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>optimal_sst[optimal_sst <span class="sc">&lt;</span> <span class="dv">11</span> <span class="sc">|</span> optimal_sst <span class="sc">&gt;</span> <span class="dv">30</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Do it again for the bathymetry data</span></span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>optimal_bath <span class="ot">&lt;-</span> bathymetry_cropped</span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>optimal_bath[optimal_bath <span class="sc">&lt;</span> <span class="sc">-</span><span class="dv">70</span> <span class="sc">|</span> optimal_bath <span class="sc">&gt;</span> <span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot optimal bathymetry raster</span></span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>plot_optimal_bath <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_spatraster</span>(<span class="at">data =</span> optimal_bath) <span class="sc">+</span></span>
-<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">name =</span> <span class="st">"Depth (m)"</span>) <span class="sc">+</span></span>
-<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Optimal Depth (m) for Oysters"</span>) <span class="sc">+</span></span>
-<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
-<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot optimal SST raster</span></span>
-<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>plot_optimal_sst <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_spatraster</span>(<span class="at">data =</span> optimal_sst) <span class="sc">+</span></span>
-<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">name =</span> <span class="st">"Temperature (°C)"</span>) <span class="sc">+</span></span>
-<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Optimal SST (°C) for Oysters"</span>) <span class="sc">+</span></span>
-<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
-<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine the plots</span></span>
-<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>plot_optimal_bath <span class="sc">+</span> plot_optimal_sst</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Turn unneeded values to NA</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>optimal_sst <span class="ot">&lt;-</span> sst_average_celsius</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>optimal_sst[optimal_sst <span class="sc">&lt;</span> <span class="dv">11</span> <span class="sc">|</span> optimal_sst <span class="sc">&gt;</span> <span class="dv">30</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Do it again for the bathymetry data</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>optimal_bath <span class="ot">&lt;-</span> bathymetry_cropped</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>optimal_bath[optimal_bath <span class="sc">&lt;</span> <span class="sc">-</span><span class="dv">70</span> <span class="sc">|</span> optimal_bath <span class="sc">&gt;</span> <span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot optimal bathymetry raster</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>plot_optimal_bath <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_spatraster</span>(<span class="at">data =</span> optimal_bath) <span class="sc">+</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">name =</span> <span class="st">"Depth (m)"</span>) <span class="sc">+</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Optimal Depth (m) for Oysters"</span>) <span class="sc">+</span></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot optimal SST raster</span></span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>plot_optimal_sst <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_spatraster</span>(<span class="at">data =</span> optimal_sst) <span class="sc">+</span></span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">name =</span> <span class="st">"Temperature (°C)"</span>) <span class="sc">+</span></span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Optimal SST (°C) for Oysters"</span>) <span class="sc">+</span></span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine the plots</span></span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>plot_optimal_bath <span class="sc">+</span> plot_optimal_sst</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="eds223_hw4_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="960"></p>
+<p><img src="eds223_hw4_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="960"></p>
 </figure>
 </div>
 </div>
@@ -320,16 +321,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Use map algebra to find areas of overlap</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>overlap <span class="ot">&lt;-</span> <span class="sc">!</span><span class="fu">is.na</span>(optimal_sst) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(optimal_bath)</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>big_optimal <span class="ot">&lt;-</span> optimal_sst <span class="sc">*</span> overlap <span class="sc">+</span> optimal_bath <span class="sc">*</span> overlap</span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(big_optimal, <span class="at">main =</span> <span class="st">"Area Optimal for Oyster Growth"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Use map algebra to find areas of overlap</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>overlap <span class="ot">&lt;-</span> <span class="sc">!</span><span class="fu">is.na</span>(optimal_sst) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(optimal_bath)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>big_optimal <span class="ot">&lt;-</span> optimal_sst <span class="sc">*</span> overlap <span class="sc">+</span> optimal_bath <span class="sc">*</span> overlap</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(big_optimal, <span class="at">main =</span> <span class="st">"Area Optimal for Oyster Growth"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="eds223_hw4_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="960"></p>
+<p><img src="eds223_hw4_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="960"></p>
 </figure>
 </div>
 </div>
@@ -342,22 +343,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Map</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_shape</span>(maritime_boundaries) <span class="sc">+</span></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_polygons</span>(<span class="at">col =</span> <span class="st">"rgn"</span>,</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">palette =</span> <span class="st">"RdYlBu"</span>,</span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">title =</span> <span class="st">"Region Name"</span>) <span class="sc">+</span></span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(<span class="at">main.title =</span> <span class="st">"West Coast EEZs"</span>,</span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">main.title.position =</span> <span class="st">"center"</span>,</span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>            <span class="at">legend.position =</span> <span class="fu">c</span>(<span class="fl">0.55</span>, <span class="fl">0.60</span>)) <span class="sc">+</span></span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>(us_states) <span class="sc">+</span></span>
-<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tm_polygons</span>(<span class="at">alpha =</span> .<span class="dv">20</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Map the EEZs</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_shape</span>(maritime_boundaries) <span class="sc">+</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_polygons</span>(<span class="at">col =</span> <span class="st">"rgn"</span>,</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">palette =</span> <span class="st">"RdYlBu"</span>,</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">title =</span> <span class="st">"Region Name"</span>) <span class="sc">+</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(<span class="at">main.title =</span> <span class="st">"West Coast EEZs"</span>,</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">main.title.position =</span> <span class="st">"center"</span>,</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">legend.position =</span> <span class="fu">c</span>(<span class="fl">0.55</span>, <span class="fl">0.60</span>)) <span class="sc">+</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>(us_states) <span class="sc">+</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tm_polygons</span>(<span class="at">alpha =</span> .<span class="dv">20</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="eds223_hw4_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="960"></p>
+<p><img src="eds223_hw4_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="1440"></p>
 </figure>
 </div>
 </div>
@@ -367,35 +367,33 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Let's make a plot!</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Raterize the vector data</span></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>maritime_raster <span class="ot">&lt;-</span> <span class="fu">rasterize</span>(maritime_boundaries, big_optimal, <span class="at">field =</span> <span class="st">"rgn"</span>)</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Map both raster data sets</span></span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>final_map <span class="ot">&lt;-</span> <span class="fu">tm_shape</span>(maritime_boundaries) <span class="sc">+</span></span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_polygons</span>(<span class="at">col =</span> <span class="st">"rgn"</span>,</span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>              <span class="at">palette =</span> <span class="st">"RdYlBu"</span>,</span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>              <span class="at">title =</span> <span class="st">"Region Name"</span>) <span class="sc">+</span></span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(<span class="at">main.title =</span> <span class="st">"West Coast EEZs"</span>,</span>
-<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>            <span class="at">main.title.position =</span> <span class="st">"center"</span>,</span>
-<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>            <span class="at">legend.position =</span> <span class="fu">c</span>(<span class="fl">0.55</span>, <span class="fl">0.50</span>)) <span class="sc">+</span></span>
-<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>(us_states) <span class="sc">+</span></span>
-<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tm_polygons</span>(<span class="at">alpha =</span> .<span class="dv">20</span>) <span class="sc">+</span>  </span>
-<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>   <span class="fu">tm_shape</span>(big_optimal) <span class="sc">+</span></span>
-<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>     <span class="fu">tm_raster</span>(<span class="at">legend.show =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_add_legend</span>(<span class="at">type =</span> <span class="st">"fill"</span>,</span>
-<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>                <span class="at">title =</span> <span class="st">"Total suitable area (km^2)"</span>,</span>
-<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>                <span class="at">col =</span> <span class="st">"firebrick"</span>,</span>
-<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>                <span class="at">labels =</span> <span class="st">" "</span>) <span class="sc">+</span></span>
-<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>     <span class="fu">tm_layout</span>(<span class="at">main.title =</span> <span class="st">"EEZs with Optimal</span><span class="sc">\n</span><span class="st">Oyster Habitat"</span>,</span>
-<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>               <span class="at">main.title.position =</span> <span class="st">"center"</span>,</span>
-<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>               <span class="at">legend.outside =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(final_map)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Let's make a plot!</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Map both raster data sets</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>final_map <span class="ot">&lt;-</span> <span class="fu">tm_shape</span>(maritime_boundaries) <span class="sc">+</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_polygons</span>(<span class="at">col =</span> <span class="st">"rgn"</span>,</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">palette =</span> <span class="st">"Blues"</span>,</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">alpha =</span> .<span class="dv">60</span>,</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>              <span class="at">title =</span> <span class="st">"Region Name"</span>) <span class="sc">+</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>() <span class="sc">+</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>(us_states) <span class="sc">+</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tm_polygons</span>(<span class="at">alpha =</span> .<span class="dv">20</span>) <span class="sc">+</span>  </span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>   <span class="fu">tm_shape</span>(big_optimal) <span class="sc">+</span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>     <span class="fu">tm_raster</span>(<span class="at">legend.show =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>               <span class="at">title =</span> <span class="st">"Total Suitable</span><span class="sc">\n</span><span class="st">Area (km^2)"</span>,</span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>               <span class="at">palette =</span> <span class="st">"red"</span>,</span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>               <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">5</span>, <span class="at">by =</span> <span class="dv">5</span>),</span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>               <span class="at">labels =</span> <span class="st">" "</span>) <span class="sc">+</span></span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>     <span class="fu">tm_layout</span>(<span class="at">main.title =</span> <span class="st">"EEZs with Optimal</span><span class="sc">\n</span><span class="st">Oyster Habitat"</span>,</span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>               <span class="at">main.title.position =</span> <span class="st">"center"</span>,</span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>               <span class="at">legend.outside =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>               <span class="at">legend.position =</span> <span class="fu">c</span>(<span class="fl">0.55</span>, <span class="fl">0.50</span>))</span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(final_map)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="eds223_hw4_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="960"></p>
+<p><img src="eds223_hw4_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="1440"></p>
 </figure>
 </div>
 </div>
@@ -403,63 +401,63 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Rasterize the eez dataframe using the 'rgn' column</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>eez_rast <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">rasterize</span>(maritime_boundaries, big_optimal, <span class="at">field =</span> <span class="st">"rgn"</span>)</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create dataframe that displays suitable area of each zone</span></span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>suitable_area <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">expanse</span>(big_optimal, <span class="at">unit =</span> <span class="st">"km"</span>, <span class="at">zones =</span> eez_rast)</span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Rename columns</span></span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>suitable_area <span class="ot">&lt;-</span> suitable_area <span class="sc">%&gt;%</span> </span>
-<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">"suitable_area_km2"</span> <span class="ot">=</span> <span class="st">"area"</span>,</span>
-<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>         <span class="st">"rgn"</span> <span class="ot">=</span> <span class="st">"zone"</span>)</span>
-<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate percent of each zone that contains suitable area for oyster aquaculture </span></span>
-<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>eez_oyster <span class="ot">&lt;-</span> maritime_boundaries <span class="sc">%&gt;%</span> </span>
-<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(suitable_area, <span class="at">by=</span> <span class="st">"rgn"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">zone_pct =</span> suitable_area_km2 <span class="sc">/</span> area_km2 <span class="sc">*</span> <span class="dv">100</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="st">"rgn"</span>, <span class="st">"area_km2"</span>, <span class="st">"suitable_area_km2"</span>, <span class="st">"zone_pct"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_drop_geometry</span>()</span>
-<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Make a fun table that shows this estimate</span></span>
-<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>final_table <span class="ot">&lt;-</span> eez_oyster <span class="sc">|&gt;</span></span>
-<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">|&gt;</span></span>
-<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt_theme_nytimes</span>() <span class="sc">|&gt;</span></span>
-<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(<span class="at">title =</span> <span class="st">"EEZ Aquaculture Calculations"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_label</span>(</span>
-<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">rgn =</span> <span class="st">"EEZ REgion"</span>,</span>
-<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">area_km2 =</span> <span class="st">"Square Kilometers of EEZ"</span>,</span>
-<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">suitable_area_km2 =</span> <span class="st">"Square Kilometers of Optimal Area"</span>,</span>
-<span id="cb22-28"><a href="#cb22-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">zone_pct =</span> <span class="st">"Percentage of EEZ Suitable for Aquaculture"</span></span>
-<span id="cb22-29"><a href="#cb22-29" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb22-30"><a href="#cb22-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
-<span id="cb22-31"><a href="#cb22-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">cell_text</span>(<span class="at">weight =</span> <span class="st">"bold"</span>),</span>
-<span id="cb22-32"><a href="#cb22-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>()</span>
-<span id="cb22-33"><a href="#cb22-33" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb22-34"><a href="#cb22-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-35"><a href="#cb22-35" aria-hidden="true" tabindex="-1"></a>final_table</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Rasterize the eez dataframe using the 'rgn' column</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>eez_rast <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">rasterize</span>(maritime_boundaries, big_optimal, <span class="at">field =</span> <span class="st">"rgn"</span>)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create dataframe that displays suitable area of each zone</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>suitable_area <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">expanse</span>(big_optimal, <span class="at">unit =</span> <span class="st">"km"</span>, <span class="at">zones =</span> eez_rast)</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Rename columns</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>suitable_area <span class="ot">&lt;-</span> suitable_area <span class="sc">%&gt;%</span> </span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">"suitable_area_km2"</span> <span class="ot">=</span> <span class="st">"area"</span>,</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>         <span class="st">"rgn"</span> <span class="ot">=</span> <span class="st">"zone"</span>)</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate percent of each zone that contains suitable area for oyster aquaculture </span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>eez_oyster <span class="ot">&lt;-</span> maritime_boundaries <span class="sc">%&gt;%</span> </span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(suitable_area, <span class="at">by=</span> <span class="st">"rgn"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">zone_pct =</span> suitable_area_km2 <span class="sc">/</span> area_km2 <span class="sc">*</span> <span class="dv">100</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="st">"rgn"</span>, <span class="st">"area_km2"</span>, <span class="st">"suitable_area_km2"</span>, <span class="st">"zone_pct"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_drop_geometry</span>()</span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Make a fun table that shows this estimate</span></span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>final_table <span class="ot">&lt;-</span> eez_oyster <span class="sc">|&gt;</span></span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">|&gt;</span></span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt_theme_nytimes</span>() <span class="sc">|&gt;</span></span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(<span class="at">title =</span> <span class="st">"EEZ Aquaculture Calculations"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_label</span>(</span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">rgn =</span> <span class="st">"EEZ REgion"</span>,</span>
+<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">area_km2 =</span> <span class="st">"Square Kilometers of EEZ"</span>,</span>
+<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">suitable_area_km2 =</span> <span class="st">"Square Kilometers of Optimal Area"</span>,</span>
+<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">zone_pct =</span> <span class="st">"Percentage of EEZ Suitable for Aquaculture"</span></span>
+<span id="cb21-29"><a href="#cb21-29" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb21-30"><a href="#cb21-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
+<span id="cb21-31"><a href="#cb21-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">cell_text</span>(<span class="at">weight =</span> <span class="st">"bold"</span>),</span>
+<span id="cb21-32"><a href="#cb21-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>()</span>
+<span id="cb21-33"><a href="#cb21-33" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb21-34"><a href="#cb21-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-35"><a href="#cb21-35" aria-hidden="true" tabindex="-1"></a>final_table</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="hitgpgznnk" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="ugfgegnugj" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>@import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-#hitgpgznnk table {
+#ugfgegnugj table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#hitgpgznnk thead, #hitgpgznnk tbody, #hitgpgznnk tfoot, #hitgpgznnk tr, #hitgpgznnk td, #hitgpgznnk th {
+#ugfgegnugj thead, #ugfgegnugj tbody, #ugfgegnugj tfoot, #ugfgegnugj tr, #ugfgegnugj td, #ugfgegnugj th {
   border-style: none;
 }
 
-#hitgpgznnk p {
+#ugfgegnugj p {
   margin: 0;
   padding: 0;
 }
 
-#hitgpgznnk .gt_table {
+#ugfgegnugj .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -485,12 +483,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-left-color: #D3D3D3;
 }
 
-#hitgpgznnk .gt_caption {
+#ugfgegnugj .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#hitgpgznnk .gt_title {
+#ugfgegnugj .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -502,7 +500,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-width: 0;
 }
 
-#hitgpgznnk .gt_subtitle {
+#ugfgegnugj .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -514,7 +512,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-width: 0;
 }
 
-#hitgpgznnk .gt_heading {
+#ugfgegnugj .gt_heading {
   background-color: #FFFFFF;
   text-align: left;
   border-bottom-color: #FFFFFF;
@@ -526,13 +524,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#hitgpgznnk .gt_bottom_border {
+#ugfgegnugj .gt_bottom_border {
   border-bottom-style: none;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#hitgpgznnk .gt_col_headings {
+#ugfgegnugj .gt_col_headings {
   border-top-style: none;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -547,7 +545,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#hitgpgznnk .gt_col_heading {
+#ugfgegnugj .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 12px;
@@ -567,7 +565,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#hitgpgznnk .gt_column_spanner_outer {
+#ugfgegnugj .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 12px;
@@ -579,15 +577,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 4px;
 }
 
-#hitgpgznnk .gt_column_spanner_outer:first-child {
+#ugfgegnugj .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#hitgpgznnk .gt_column_spanner_outer:last-child {
+#ugfgegnugj .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#hitgpgznnk .gt_column_spanner {
+#ugfgegnugj .gt_column_spanner {
   border-bottom-style: none;
   border-bottom-width: 1px;
   border-bottom-color: #334422;
@@ -599,11 +597,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   width: 100%;
 }
 
-#hitgpgznnk .gt_spanner_row {
+#ugfgegnugj .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#hitgpgznnk .gt_group_heading {
+#ugfgegnugj .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -629,7 +627,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   text-align: left;
 }
 
-#hitgpgznnk .gt_empty_group_heading {
+#ugfgegnugj .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -644,15 +642,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: middle;
 }
 
-#hitgpgznnk .gt_from_md > :first-child {
+#ugfgegnugj .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#hitgpgznnk .gt_from_md > :last-child {
+#ugfgegnugj .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#hitgpgznnk .gt_row {
+#ugfgegnugj .gt_row {
   padding-top: 7px;
   padding-bottom: 7px;
   padding-left: 5px;
@@ -671,7 +669,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#hitgpgznnk .gt_stub {
+#ugfgegnugj .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -684,7 +682,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#hitgpgznnk .gt_stub_row_group {
+#ugfgegnugj .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -698,15 +696,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: top;
 }
 
-#hitgpgznnk .gt_row_group_first td {
+#ugfgegnugj .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#hitgpgznnk .gt_row_group_first th {
+#ugfgegnugj .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#hitgpgznnk .gt_summary_row {
+#ugfgegnugj .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -716,16 +714,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#hitgpgznnk .gt_first_summary_row {
+#ugfgegnugj .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#hitgpgznnk .gt_first_summary_row.thick {
+#ugfgegnugj .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#hitgpgznnk .gt_last_summary_row {
+#ugfgegnugj .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -735,7 +733,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#hitgpgznnk .gt_grand_summary_row {
+#ugfgegnugj .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -745,7 +743,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#hitgpgznnk .gt_first_grand_summary_row {
+#ugfgegnugj .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -755,7 +753,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-color: #D3D3D3;
 }
 
-#hitgpgznnk .gt_last_grand_summary_row_top {
+#ugfgegnugj .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -765,11 +763,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#hitgpgznnk .gt_striped {
+#ugfgegnugj .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#hitgpgznnk .gt_table_body {
+#ugfgegnugj .gt_table_body {
   border-top-style: none;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -778,7 +776,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #FFFFFF;
 }
 
-#hitgpgznnk .gt_footnotes {
+#ugfgegnugj .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -792,7 +790,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#hitgpgznnk .gt_footnote {
+#ugfgegnugj .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -801,7 +799,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#hitgpgznnk .gt_sourcenotes {
+#ugfgegnugj .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -815,7 +813,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#hitgpgznnk .gt_sourcenote {
+#ugfgegnugj .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -823,72 +821,72 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#hitgpgznnk .gt_left {
+#ugfgegnugj .gt_left {
   text-align: left;
 }
 
-#hitgpgznnk .gt_center {
+#ugfgegnugj .gt_center {
   text-align: center;
 }
 
-#hitgpgznnk .gt_right {
+#ugfgegnugj .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#hitgpgznnk .gt_font_normal {
+#ugfgegnugj .gt_font_normal {
   font-weight: normal;
 }
 
-#hitgpgznnk .gt_font_bold {
+#ugfgegnugj .gt_font_bold {
   font-weight: bold;
 }
 
-#hitgpgznnk .gt_font_italic {
+#ugfgegnugj .gt_font_italic {
   font-style: italic;
 }
 
-#hitgpgznnk .gt_super {
+#ugfgegnugj .gt_super {
   font-size: 65%;
 }
 
-#hitgpgznnk .gt_footnote_marks {
+#ugfgegnugj .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#hitgpgznnk .gt_asterisk {
+#ugfgegnugj .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#hitgpgznnk .gt_indent_1 {
+#ugfgegnugj .gt_indent_1 {
   text-indent: 5px;
 }
 
-#hitgpgznnk .gt_indent_2 {
+#ugfgegnugj .gt_indent_2 {
   text-indent: 10px;
 }
 
-#hitgpgznnk .gt_indent_3 {
+#ugfgegnugj .gt_indent_3 {
   text-indent: 15px;
 }
 
-#hitgpgznnk .gt_indent_4 {
+#ugfgegnugj .gt_indent_4 {
   text-indent: 20px;
 }
 
-#hitgpgznnk .gt_indent_5 {
+#ugfgegnugj .gt_indent_5 {
   text-indent: 25px;
 }
 
-#hitgpgznnk .katex-display {
+#ugfgegnugj .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#hitgpgznnk div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#ugfgegnugj div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -939,6 +937,682 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="aquaculture-made-shrimple" class="level2">
+<h2 class="anchored" data-anchor-id="aquaculture-made-shrimple">Aquaculture made “Shrimple”</h2>
+<p>According to Boyd et. all, one of the most common species of shrimp harvested using aquaculture is Penaeus setiferus, or White Shrimp. According to SeaLifeBase, this shrimp species requires the following conditions for optimal growth:</p>
+<ul>
+<li>sea surface temperature: 15.3-27.3°C</li>
+<li>depth: 0-119 meters below sea level</li>
+</ul>
+<p>I want to run the same analysis for shrimps, that I did for oysters. In order to do that, I will create a function that utilizes the same steps above, but would only require me to input the parameters of the analysis, and result in a comprehensive map and table.</p>
+<p>First I will create the function, called optimal_aquaculture:</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>optimal_aquaculture <span class="ot">&lt;-</span> <span class="cf">function</span>(sst_data, bathy_data, eez_data, species, min_temp, max_temp, min_depth, max_depth) {</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Transform the CRS of the files to match</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  bathymetry <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">project</span>(bathy_data, <span class="fu">crs</span>(sst_data))</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  maritime_boundaries <span class="ot">&lt;-</span> eez_data <span class="sc">%&gt;%</span> </span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">st_transform</span>(<span class="at">crs =</span> <span class="fu">st_crs</span>(bathymetry))</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Confirm that the CRS transformed as expected</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">test_that</span>(<span class="st">"The CRS of all data sets match"</span>, {</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">expect_true</span>(<span class="fu">crs</span>(sst_data) <span class="sc">==</span> <span class="fu">crs</span>(bathymetry) <span class="sc">&amp;&amp;</span> <span class="fu">crs</span>(bathymetry) <span class="sc">==</span> <span class="fu">crs</span>(maritime_boundaries))</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Find the mean SST from 2008-2012 (e.g., create single raster of average SST)</span></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>  sst_average <span class="ot">&lt;-</span> <span class="fu">mean</span>(sst_data)</span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Convert average SST from Kelvin to Celsius by subtracting 273.15</span></span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>  sst_average_celsius <span class="ot">&lt;-</span> sst_average <span class="sc">-</span> <span class="fl">273.15</span></span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Resample the bathymetry data to match the resolution of the SST data using the nearest neighbor approach</span></span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>  bathymetry_resampled <span class="ot">&lt;-</span> <span class="fu">resample</span>(bathymetry, sst_average_celsius, <span class="at">method =</span> <span class="st">"near"</span>)</span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">test_that</span>(<span class="st">"The Resolutions of the Rasters match"</span>, {</span>
+<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">expect_true</span>(<span class="fu">res</span>(bathymetry_resampled)[<span class="dv">1</span>] <span class="sc">==</span> <span class="fu">res</span>(sst_average_celsius)[<span class="dv">1</span>]) <span class="sc">&amp;&amp;</span> </span>
+<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a>      (<span class="fu">res</span>(bathymetry_resampled)[<span class="dv">2</span>] <span class="sc">==</span> <span class="fu">res</span>(sst_average_celsius)[<span class="dv">2</span>])</span>
+<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Crop the bathymetry raster</span></span>
+<span id="cb22-28"><a href="#cb22-28" aria-hidden="true" tabindex="-1"></a>  bathymetry_cropped <span class="ot">&lt;-</span> <span class="fu">crop</span>(bathymetry_resampled, sst_average_celsius)</span>
+<span id="cb22-29"><a href="#cb22-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-30"><a href="#cb22-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">test_that</span>(<span class="st">"The resolutions of the cropped rasters match"</span>, {</span>
+<span id="cb22-31"><a href="#cb22-31" aria-hidden="true" tabindex="-1"></a>    <span class="fu">expect_true</span>(<span class="fu">all</span>(<span class="fu">res</span>(bathymetry_cropped) <span class="sc">==</span> <span class="fu">res</span>(sst_average_celsius)))</span>
+<span id="cb22-32"><a href="#cb22-32" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb22-33"><a href="#cb22-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-34"><a href="#cb22-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">test_that</span>(<span class="st">"The rasters have the same extent"</span>, {</span>
+<span id="cb22-35"><a href="#cb22-35" aria-hidden="true" tabindex="-1"></a>    <span class="fu">expect_true</span>(<span class="fu">ext</span>(bathymetry_cropped) <span class="sc">==</span> <span class="fu">ext</span>(sst_average_celsius))</span>
+<span id="cb22-36"><a href="#cb22-36" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb22-37"><a href="#cb22-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-38"><a href="#cb22-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">test_that</span>(<span class="st">"The rasters have the same CRS"</span>, {</span>
+<span id="cb22-39"><a href="#cb22-39" aria-hidden="true" tabindex="-1"></a>    <span class="fu">expect_true</span>(<span class="fu">crs</span>(bathymetry_cropped) <span class="sc">==</span> <span class="fu">crs</span>(sst_average_celsius))</span>
+<span id="cb22-40"><a href="#cb22-40" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb22-41"><a href="#cb22-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-42"><a href="#cb22-42" aria-hidden="true" tabindex="-1"></a>  <span class="co"># As a final check, stack the rasters</span></span>
+<span id="cb22-43"><a href="#cb22-43" aria-hidden="true" tabindex="-1"></a>  bathy_sst <span class="ot">&lt;-</span> <span class="fu">c</span>(bathymetry_cropped, sst_average_celsius)</span>
+<span id="cb22-44"><a href="#cb22-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-45"><a href="#cb22-45" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Turn unneeded values to NA</span></span>
+<span id="cb22-46"><a href="#cb22-46" aria-hidden="true" tabindex="-1"></a>  optimal_sst <span class="ot">&lt;-</span> sst_average_celsius</span>
+<span id="cb22-47"><a href="#cb22-47" aria-hidden="true" tabindex="-1"></a>  optimal_sst[optimal_sst <span class="sc">&lt;</span> min_temp <span class="sc">|</span> optimal_sst <span class="sc">&gt;</span> max_temp] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb22-48"><a href="#cb22-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-49"><a href="#cb22-49" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Do it again for the bathymetry data</span></span>
+<span id="cb22-50"><a href="#cb22-50" aria-hidden="true" tabindex="-1"></a>  optimal_bath <span class="ot">&lt;-</span> bathymetry_cropped</span>
+<span id="cb22-51"><a href="#cb22-51" aria-hidden="true" tabindex="-1"></a>  optimal_bath[optimal_bath <span class="sc">&lt;</span> max_depth <span class="sc">|</span> optimal_bath <span class="sc">&gt;</span> min_depth] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb22-52"><a href="#cb22-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-53"><a href="#cb22-53" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Use map algebra to find areas of overlap</span></span>
+<span id="cb22-54"><a href="#cb22-54" aria-hidden="true" tabindex="-1"></a>  overlap <span class="ot">&lt;-</span> <span class="sc">!</span><span class="fu">is.na</span>(optimal_sst) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(optimal_bath)</span>
+<span id="cb22-55"><a href="#cb22-55" aria-hidden="true" tabindex="-1"></a>  big_optimal <span class="ot">&lt;-</span> optimal_sst <span class="sc">*</span> overlap <span class="sc">+</span> optimal_bath <span class="sc">*</span> overlap</span>
+<span id="cb22-56"><a href="#cb22-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-57"><a href="#cb22-57" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Map both raster data sets</span></span>
+<span id="cb22-58"><a href="#cb22-58" aria-hidden="true" tabindex="-1"></a>  final_map <span class="ot">&lt;-</span> <span class="fu">tm_shape</span>(eez_data) <span class="sc">+</span></span>
+<span id="cb22-59"><a href="#cb22-59" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tm_polygons</span>(<span class="at">col =</span> <span class="st">"rgn"</span>,</span>
+<span id="cb22-60"><a href="#cb22-60" aria-hidden="true" tabindex="-1"></a>                <span class="at">palette =</span> <span class="st">"Blues"</span>,</span>
+<span id="cb22-61"><a href="#cb22-61" aria-hidden="true" tabindex="-1"></a>                <span class="at">alpha =</span> .<span class="dv">60</span>,</span>
+<span id="cb22-62"><a href="#cb22-62" aria-hidden="true" tabindex="-1"></a>                <span class="at">title =</span> <span class="st">"Region Name"</span>) <span class="sc">+</span></span>
+<span id="cb22-63"><a href="#cb22-63" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tm_layout</span>() <span class="sc">+</span></span>
+<span id="cb22-64"><a href="#cb22-64" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tm_shape</span>(us_states) <span class="sc">+</span></span>
+<span id="cb22-65"><a href="#cb22-65" aria-hidden="true" tabindex="-1"></a>      <span class="fu">tm_polygons</span>(<span class="at">alpha =</span> .<span class="dv">20</span>) <span class="sc">+</span>  </span>
+<span id="cb22-66"><a href="#cb22-66" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tm_shape</span>(big_optimal) <span class="sc">+</span></span>
+<span id="cb22-67"><a href="#cb22-67" aria-hidden="true" tabindex="-1"></a>      <span class="fu">tm_raster</span>(<span class="at">legend.show =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb22-68"><a href="#cb22-68" aria-hidden="true" tabindex="-1"></a>                <span class="at">title =</span> <span class="st">"Total Suitable</span><span class="sc">\n</span><span class="st">Area (km^2)"</span>,</span>
+<span id="cb22-69"><a href="#cb22-69" aria-hidden="true" tabindex="-1"></a>                <span class="at">palette =</span> <span class="st">"red"</span>,</span>
+<span id="cb22-70"><a href="#cb22-70" aria-hidden="true" tabindex="-1"></a>                <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">5</span>, <span class="at">by =</span> <span class="dv">5</span>),</span>
+<span id="cb22-71"><a href="#cb22-71" aria-hidden="true" tabindex="-1"></a>                <span class="at">labels =</span> <span class="st">" "</span>) <span class="sc">+</span></span>
+<span id="cb22-72"><a href="#cb22-72" aria-hidden="true" tabindex="-1"></a>      <span class="fu">tm_layout</span>(<span class="at">main.title =</span> <span class="fu">paste</span>(<span class="st">"West Coast EEZs with Optimal</span><span class="sc">\n</span><span class="st">"</span>, species, <span class="st">" Habitat"</span>),</span>
+<span id="cb22-73"><a href="#cb22-73" aria-hidden="true" tabindex="-1"></a>                <span class="at">main.title.position =</span> <span class="st">"center"</span>,</span>
+<span id="cb22-74"><a href="#cb22-74" aria-hidden="true" tabindex="-1"></a>                <span class="at">legend.outside =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb22-75"><a href="#cb22-75" aria-hidden="true" tabindex="-1"></a>                <span class="at">legend.position =</span> <span class="fu">c</span>(<span class="fl">0.55</span>, <span class="fl">0.50</span>))</span>
+<span id="cb22-76"><a href="#cb22-76" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(final_map)</span>
+<span id="cb22-77"><a href="#cb22-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-78"><a href="#cb22-78" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Rasterize the EEZ dataframe using the 'rgn' column</span></span>
+<span id="cb22-79"><a href="#cb22-79" aria-hidden="true" tabindex="-1"></a>  eez_rast <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">rasterize</span>(eez_data, big_optimal, <span class="at">field =</span> <span class="st">"rgn"</span>)</span>
+<span id="cb22-80"><a href="#cb22-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-81"><a href="#cb22-81" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Create a dataframe that displays the suitable area of each zone</span></span>
+<span id="cb22-82"><a href="#cb22-82" aria-hidden="true" tabindex="-1"></a>  suitable_area <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">expanse</span>(big_optimal, <span class="at">unit =</span> <span class="st">"km"</span>, <span class="at">zones =</span> eez_rast)</span>
+<span id="cb22-83"><a href="#cb22-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-84"><a href="#cb22-84" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Rename columns</span></span>
+<span id="cb22-85"><a href="#cb22-85" aria-hidden="true" tabindex="-1"></a>  suitable_area <span class="ot">&lt;-</span> suitable_area <span class="sc">%&gt;%</span> </span>
+<span id="cb22-86"><a href="#cb22-86" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rename</span>(<span class="st">"suitable_area_km2"</span> <span class="ot">=</span> <span class="st">"area"</span>,</span>
+<span id="cb22-87"><a href="#cb22-87" aria-hidden="true" tabindex="-1"></a>           <span class="st">"rgn"</span> <span class="ot">=</span> <span class="st">"zone"</span>)</span>
+<span id="cb22-88"><a href="#cb22-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-89"><a href="#cb22-89" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Calculate the percent of each zone that contains suitable area for oyster aquaculture </span></span>
+<span id="cb22-90"><a href="#cb22-90" aria-hidden="true" tabindex="-1"></a>  eez_species <span class="ot">&lt;-</span> eez_data <span class="sc">%&gt;%</span> </span>
+<span id="cb22-91"><a href="#cb22-91" aria-hidden="true" tabindex="-1"></a>    <span class="fu">left_join</span>(suitable_area, <span class="at">by =</span> <span class="st">"rgn"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb22-92"><a href="#cb22-92" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">zone_pct =</span> suitable_area_km2 <span class="sc">/</span> area_km2 <span class="sc">*</span> <span class="dv">100</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb22-93"><a href="#cb22-93" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(<span class="st">"rgn"</span>, <span class="st">"area_km2"</span>, <span class="st">"suitable_area_km2"</span>, <span class="st">"zone_pct"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb22-94"><a href="#cb22-94" aria-hidden="true" tabindex="-1"></a>    <span class="fu">st_drop_geometry</span>()</span>
+<span id="cb22-95"><a href="#cb22-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-96"><a href="#cb22-96" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Create a table to show this estimate</span></span>
+<span id="cb22-97"><a href="#cb22-97" aria-hidden="true" tabindex="-1"></a>  final_table <span class="ot">&lt;-</span> eez_species <span class="sc">|&gt;</span></span>
+<span id="cb22-98"><a href="#cb22-98" aria-hidden="true" tabindex="-1"></a>    <span class="fu">gt</span>() <span class="sc">|&gt;</span></span>
+<span id="cb22-99"><a href="#cb22-99" aria-hidden="true" tabindex="-1"></a>    <span class="fu">gt_theme_nytimes</span>() <span class="sc">|&gt;</span></span>
+<span id="cb22-100"><a href="#cb22-100" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tab_header</span>(<span class="at">title =</span> <span class="fu">paste</span>(<span class="st">"EEZ Aquaculture Calculations for"</span>, species)) <span class="sc">|&gt;</span></span>
+<span id="cb22-101"><a href="#cb22-101" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cols_label</span>(</span>
+<span id="cb22-102"><a href="#cb22-102" aria-hidden="true" tabindex="-1"></a>      <span class="at">rgn =</span> <span class="st">"EEZ Region"</span>,</span>
+<span id="cb22-103"><a href="#cb22-103" aria-hidden="true" tabindex="-1"></a>      <span class="at">area_km2 =</span> <span class="st">"Square Kilometers of EEZ"</span>,</span>
+<span id="cb22-104"><a href="#cb22-104" aria-hidden="true" tabindex="-1"></a>      <span class="at">suitable_area_km2 =</span> <span class="st">"Square Kilometers of Optimal Area"</span>,</span>
+<span id="cb22-105"><a href="#cb22-105" aria-hidden="true" tabindex="-1"></a>      <span class="at">zone_pct =</span> <span class="st">"Percentage of EEZ Suitable for Aquaculture"</span></span>
+<span id="cb22-106"><a href="#cb22-106" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span></span>
+<span id="cb22-107"><a href="#cb22-107" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tab_style</span>(</span>
+<span id="cb22-108"><a href="#cb22-108" aria-hidden="true" tabindex="-1"></a>      <span class="at">style =</span> <span class="fu">cell_text</span>(<span class="at">weight =</span> <span class="st">"bold"</span>),</span>
+<span id="cb22-109"><a href="#cb22-109" aria-hidden="true" tabindex="-1"></a>      <span class="at">locations =</span> <span class="fu">cells_body</span>()</span>
+<span id="cb22-110"><a href="#cb22-110" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb22-111"><a href="#cb22-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-112"><a href="#cb22-112" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(final_table)</span>
+<span id="cb22-113"><a href="#cb22-113" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>And then I will use it to run an analysis of optimal conditions for White Shrimp aquaculture:</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">optimal_aquaculture</span>(<span class="at">sst_data =</span> sst_stack, <span class="at">bathy_data =</span> bathymetry, <span class="at">eez_data =</span> maritime_boundaries, <span class="at">species =</span> <span class="st">"White Shrimp"</span>, <span class="at">min_temp =</span> <span class="fl">15.3</span>, <span class="at">max_temp =</span> <span class="fl">27.3</span>, <span class="at">min_depth =</span> <span class="dv">0</span>, <span class="at">max_depth =</span> <span class="sc">-</span><span class="dv">119</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Test passed 🥇
+Test passed 🥇
+Test passed 🎉
+Test passed 🥳
+Test passed 😸</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="eds223_hw4_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div id="xzdyqrfgls" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>@import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+#xzdyqrfgls table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#xzdyqrfgls thead, #xzdyqrfgls tbody, #xzdyqrfgls tfoot, #xzdyqrfgls tr, #xzdyqrfgls td, #xzdyqrfgls th {
+  border-style: none;
+}
+
+#xzdyqrfgls p {
+  margin: 0;
+  padding: 0;
+}
+
+#xzdyqrfgls .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: none;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#xzdyqrfgls .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#xzdyqrfgls .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#xzdyqrfgls .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#xzdyqrfgls .gt_heading {
+  background-color: #FFFFFF;
+  text-align: left;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#xzdyqrfgls .gt_bottom_border {
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#xzdyqrfgls .gt_col_headings {
+  border-top-style: none;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: none;
+  border-bottom-width: 1px;
+  border-bottom-color: #334422;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#xzdyqrfgls .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 12px;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#xzdyqrfgls .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 12px;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#xzdyqrfgls .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#xzdyqrfgls .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#xzdyqrfgls .gt_column_spanner {
+  border-bottom-style: none;
+  border-bottom-width: 1px;
+  border-bottom-color: #334422;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#xzdyqrfgls .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#xzdyqrfgls .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#xzdyqrfgls .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#xzdyqrfgls .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#xzdyqrfgls .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#xzdyqrfgls .gt_row {
+  padding-top: 7px;
+  padding-bottom: 7px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#xzdyqrfgls .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#xzdyqrfgls .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#xzdyqrfgls .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#xzdyqrfgls .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#xzdyqrfgls .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#xzdyqrfgls .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#xzdyqrfgls .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#xzdyqrfgls .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#xzdyqrfgls .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#xzdyqrfgls .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#xzdyqrfgls .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#xzdyqrfgls .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#xzdyqrfgls .gt_table_body {
+  border-top-style: none;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #FFFFFF;
+}
+
+#xzdyqrfgls .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#xzdyqrfgls .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#xzdyqrfgls .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#xzdyqrfgls .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#xzdyqrfgls .gt_left {
+  text-align: left;
+}
+
+#xzdyqrfgls .gt_center {
+  text-align: center;
+}
+
+#xzdyqrfgls .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#xzdyqrfgls .gt_font_normal {
+  font-weight: normal;
+}
+
+#xzdyqrfgls .gt_font_bold {
+  font-weight: bold;
+}
+
+#xzdyqrfgls .gt_font_italic {
+  font-style: italic;
+}
+
+#xzdyqrfgls .gt_super {
+  font-size: 65%;
+}
+
+#xzdyqrfgls .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#xzdyqrfgls .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#xzdyqrfgls .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#xzdyqrfgls .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#xzdyqrfgls .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#xzdyqrfgls .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#xzdyqrfgls .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#xzdyqrfgls .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#xzdyqrfgls div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead>
+<tr class="header gt_heading">
+<th colspan="4" class="gt_heading gt_title gt_font_normal gt_bottom_border" style="font-family: 'Libre Franklin'; font-weight: 800">EEZ Aquaculture Calculations for White Shrimp</th>
+</tr>
+<tr class="odd gt_col_headings">
+<th id="EEZ Region" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" style="color: #A9A9A9; font-family: 'Source Sans Pro'; text-transform: uppercase" scope="col">EEZ Region</th>
+<th id="Square Kilometers of EEZ" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="color: #A9A9A9; font-family: 'Source Sans Pro'; text-transform: uppercase" scope="col">Square Kilometers of EEZ</th>
+<th id="Square Kilometers of Optimal Area" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="color: #A9A9A9; font-family: 'Source Sans Pro'; text-transform: uppercase" scope="col">Square Kilometers of Optimal Area</th>
+<th id="Percentage of EEZ Suitable for Aquaculture" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="color: #A9A9A9; font-family: 'Source Sans Pro'; text-transform: uppercase" scope="col">Percentage of EEZ Suitable for Aquaculture</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_left" headers="rgn" style="font-family: 'Source Sans Pro'; font-weight: bold">Oregon</td>
+<td class="gt_row gt_right" headers="area_km2" style="font-family: 'Source Sans Pro'; font-weight: bold">179994.06</td>
+<td class="gt_row gt_right" headers="suitable_area_km2" style="font-family: 'Source Sans Pro'; font-weight: bold">NA</td>
+<td class="gt_row gt_right" headers="zone_pct" style="font-family: 'Source Sans Pro'; font-weight: bold">NA</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="rgn" style="font-family: 'Source Sans Pro'; font-weight: bold">Northern California</td>
+<td class="gt_row gt_right" headers="area_km2" style="font-family: 'Source Sans Pro'; font-weight: bold">164378.81</td>
+<td class="gt_row gt_right" headers="suitable_area_km2" style="font-family: 'Source Sans Pro'; font-weight: bold">NA</td>
+<td class="gt_row gt_right" headers="zone_pct" style="font-family: 'Source Sans Pro'; font-weight: bold">NA</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="rgn" style="font-family: 'Source Sans Pro'; font-weight: bold">Central California</td>
+<td class="gt_row gt_right" headers="area_km2" style="font-family: 'Source Sans Pro'; font-weight: bold">202738.33</td>
+<td class="gt_row gt_right" headers="suitable_area_km2" style="font-family: 'Source Sans Pro'; font-weight: bold">NA</td>
+<td class="gt_row gt_right" headers="zone_pct" style="font-family: 'Source Sans Pro'; font-weight: bold">NA</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="rgn" style="font-family: 'Source Sans Pro'; font-weight: bold">Southern California</td>
+<td class="gt_row gt_right" headers="area_km2" style="font-family: 'Source Sans Pro'; font-weight: bold">206860.78</td>
+<td class="gt_row gt_right" headers="suitable_area_km2" style="font-family: 'Source Sans Pro'; font-weight: bold">3292.186</td>
+<td class="gt_row gt_right" headers="zone_pct" style="font-family: 'Source Sans Pro'; font-weight: bold">1.591498</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="rgn" style="font-family: 'Source Sans Pro'; font-weight: bold">Washington</td>
+<td class="gt_row gt_right" headers="area_km2" style="font-family: 'Source Sans Pro'; font-weight: bold">66898.31</td>
+<td class="gt_row gt_right" headers="suitable_area_km2" style="font-family: 'Source Sans Pro'; font-weight: bold">NA</td>
+<td class="gt_row gt_right" headers="zone_pct" style="font-family: 'Source Sans Pro'; font-weight: bold">NA</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+</section>
+<section id="citations" class="level2">
+<h2 class="anchored" data-anchor-id="citations">Citations</h2>
+<p>Boyd, Claude E., and Jason W. Clay. “Shrimp Aquaculture and the Environment.” Scientific American 278, no. 6 (1998): 58–65. http://www.jstor.org/stable/26057855.</p>
+<p>https://www.sealifebase.ca/summary/Penaeus-setiferus.html</p>
+<section id="acknowledgements" class="level3">
+<h3 class="anchored" data-anchor-id="acknowledgements">Acknowledgements</h3>
+<p>Special shoutout to Jordan Sibley, who helped me debug a particularly fraught piece of code in this analysis.</p>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">"data/IMG_20241203_193746.jpg"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="data/IMG_20241203_193746.jpg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%"></p>
+</figure>
 </div>
 </div>
 </div>
