@@ -17,7 +17,7 @@ editor_options:
 
 Marine aquaculture has the potential to play an important role in the global food supply as a more sustainable protein option than land-based meat production. Gentry et al. mapped the potential for marine aquaculture globally based on multiple constraints, including ship traffic, dissolved oxygen, and bottom depth. They found that global seafood demand could be met using less than 0.015% of the global ocean area.
 
-For this analysis, I will determine which Exclusive Economic Zones (EEZ) on the West Coast of the United States are best suited to developing marine aquaculture for several species of oysters and (CHOOSE AN ANIMAL JORB). Suitable locations will be determined based on a range of suitable sea surface temperatures (SST) and depth values for the species. 
+For this analysis, I will determine which Exclusive Economic Zones (EEZ) on the West Coast of the United States are best suited to developing marine aquaculture for several species of Oysters and White Shrimp. Suitable locations will be determined based on a range of suitable sea surface temperatures (SST) and depth values for the species. 
 
 Data on species depth and temperature requirements came from SeaLifeBase. 
 
@@ -161,7 +161,7 @@ bathy_sst <- c(bathymetry_cropped, sst_average_celsius)
 
 After the data is properly prepared and processed, I can begin the analysis to find suitable locations for marine aquaculture. This means finding locations that are suitable in terms of both SST and depth. 
 
-I will begin my analysis with oysters. Research has shown that oyster need the following conditions for optimal growth: 
+I will begin my analysis with oysters. Research has shown that oysters need the following conditions for optimal growth: 
 
 - sea surface temperature: 11-30°C
 - depth: 0-70 meters below sea level
@@ -379,6 +379,7 @@ optimal_aquaculture <- function(sst_data, bathy_data, eez_data, species, min_tem
                 breaks = seq(0, 5, by = 5),
                 labels = " ") +
       tm_layout(main.title = paste("EEZs with Optimal\n", species, "\nHabitat"),
+                main.title.size = .90,
                 main.title.position = "center",
                 legend.outside = FALSE,
                 legend.position = c(0.55, 0.50))
@@ -429,12 +430,11 @@ And then I will use it to run an analysis of optimal conditions for White Shrimp
 optimal_aquaculture(sst_data = sst_stack, bathy_data = bathymetry, eez_data = maritime_boundaries, species = "White Shrimp", min_temp = 15.3, max_temp = 27.3, min_depth = 0, max_depth = -119)
 ```
 
-While obviously useful to analyzing spatial data for shrimp, this function can be used for any variety of cultivated seafoods, so long as the parameters are known and the data is available. 
+While obviously useful to analyzing spatial data for shrimp, this function can be used for any variety of cultivated seafoods, so long as the parameters are known and the data is available. This White Shrimp analysis shows us that optimal conditions for the cultivation of this food can only happen in Southern California. Information such as this can lead to the prioritization and higher likelihood of success for aquaculture planning and projects. 
 
 ## Conclusion
 
-
-
+Aquaculture will continue to have a vital role to play in food cultivation, especially in the face of modern climate stressors and human population demands. Analysis such as this one showcase the important role that data science and spatial data analysis have to play in understanding this important food growing practice.  
 
 ## Citations
 
@@ -446,9 +446,13 @@ Gentry, R. R., Froehlich, H. E., Grimm, D., Kareiva, P., Parke, M., Rust, M., Ga
 
 GEBCO Compilation Group (2022) GEBCO_2022 Grid (doi:10.5285/e0f0bb80-ab44-2739-e053-6c86abc0289c).
 
+NOAA Coral Reef Watch. "Daily Global 5km Satellite Sea Surface Temperature Anomaly (Version 3.1, Released August 1, 2018)." Accessed December 3, 2024. https://coralreefwatch.noaa.gov/product/5km/index_5km_ssta.php.
+
 R. Oliver, EDS 223 - Geospatial Analysis and Remote Sensing, Course Notes. 2024. [Online]. Available: https://eds-223-geospatial.github.io/
 
 SeaLifeBase. "Penaeus setiferus (Linnaeus, 1767) - Northern White Shrimp." Accessed December 3, 2024. https://sealifebase.org.
+
+SeaLifeBase. "Ostrea edulis (Linnaeus, 1758) - Edible Oyster." Accessed December 3, 2024. https://sealifebase.org.
 
 ### Acknowledgements
 
