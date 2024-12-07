@@ -1,7 +1,7 @@
 # Prioritizing Potential Aquaculture Zones on the West Coast of the United States:
 ## An Exercise in R Analysis
 ## Author: Bailey Jørgensen
-** https://github.com/jorb1
+https://github.com/jorb1
 
 For this analysis, I will determine which Exclusive Economic Zones (EEZ) on the West Coast of the United States are best suited to developing marine aquaculture for several species of Oysters and White Shrimp. Suitable locations will be determined based on a range of suitable sea surface temperatures (SST) and depth values for the species. 
 
