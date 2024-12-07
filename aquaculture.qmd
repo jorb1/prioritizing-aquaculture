@@ -1,6 +1,6 @@
 ---
 title: "Prioritizing Potential Aquaculture Zones in Coastal California"
-subtitle: "EDS 223 Homework #4"
+subtitle: "An Exercise in R Analysis"
 author: "Bailey Jørgensen"
 execute:
   warning: false
