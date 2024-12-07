@@ -381,7 +381,6 @@ optimal_aquaculture <- function(sst_data, bathy_data, eez_data, species, min_tem
       tm_layout(main.title = paste("EEZs with Optimal\n", species, "\nHabitat"),
                 main.title.size = .90,
                 main.title.position = "center",
-                legend.outside = FALSE,
                 legend.position = c(0.55, 0.50))
   print(final_map)
 
